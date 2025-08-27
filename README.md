@@ -1,6 +1,6 @@
 # 图片工具箱
 
-一个简单高效的图片处理工具，提供多种常用图片处理功能。
+一个简单高效的图片处理工具，提供多种常用图片处理功能。在线使用，无需下载安装，快速处理您的图片需求。
 
 ## 功能特点
 
@@ -41,12 +41,49 @@ npx http-server
 
 ```
 ├── index.html      # 主页面
-├── css/
-│   └── style.css   # 样式文件
-├── js/
-│   └── app.js      # 应用逻辑
+├── src/            # 源代码目录
+│   ├── App.vue     # 主应用组件
+│   ├── main.js     # 入口文件
+│   ├── router/     # 路由配置
+│   └── views/      # 视图组件
+├── public/         # 静态资源
+│   └── robots.txt  # 搜索引擎爬虫规则
 └── README.md       # 项目说明
 ```
+
+## SEO优化指南
+
+为了提高网站在搜索引擎中的自然收录，已完成以下优化：
+
+1. **添加元信息**
+   - 添加了meta description、keywords和robots标签
+   - 设置了canonical链接
+
+2. **生成Sitemap**
+   - 使用vite-plugin-sitemap自动生成sitemap.xml
+   - 配置了网站的所有重要页面
+
+3. **创建robots.txt**
+   - 允许搜索引擎爬取所有内容
+   - 指向sitemap.xml位置
+
+## 提交到搜索引擎
+
+网站部署后，请完成以下步骤：
+
+1. **Google Search Console**
+   - 注册并验证网站所有权
+   - 提交sitemap.xml文件
+   - 网址：https://search.google.com/search-console
+
+2. **Bing Webmaster Tools**
+   - 注册并验证网站
+   - 提交sitemap.xml文件
+   - 网址：https://www.bing.com/webmasters
+
+3. **获取外部链接**
+   - 在社交平台发布网站信息
+   - 推荐平台：Twitter、Reddit、相关论坛
 
 ## 浏览器兼容性
 
