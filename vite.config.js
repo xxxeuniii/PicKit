@@ -1,13 +1,13 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
-import { sitemap } from 'vite-plugin-sitemap'
+import sitemapPlugin from 'vite-plugin-sitemap'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
-    sitemap({
+    sitemapPlugin({
       hostname: 'https://pickit.example.com',
       dynamicRoutes: [
         '/',
