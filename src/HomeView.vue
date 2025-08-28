@@ -61,13 +61,43 @@
             </el-card>
           </el-col>
         </el-row>
+        <el-row gutter="20">
+          <el-col :span="6">
+            <el-card class="feature-card" shadow="hover">
+              <div class="feature-icon compress"></div>
+              <h3>{{ $t('home.compressTitle') }}</h3>
+              <p>{{ $t('home.compressDesc') }}</p>
+            </el-card>
+          </el-col>
+          <el-col :span="6">
+            <el-card class="feature-card" shadow="hover">
+              <div class="feature-icon crop"></div>
+              <h3>{{ $t('home.cropTitle') }}</h3>
+              <p>{{ $t('home.cropDesc') }}</p>
+            </el-card>
+          </el-col>
+          <el-col :span="6">
+            <el-card class="feature-card" shadow="hover">
+              <div class="feature-icon convert"></div>
+              <h3>{{ $t('home.convertTitle') }}</h3>
+              <p>{{ $t('home.convertDesc') }}</p>
+            </el-card>
+          </el-col>
+          <el-col :span="6">
+            <el-card class="feature-card" shadow="hover">
+              <div class="feature-icon rename"></div>
+              <h3>{{ $t('home.renameTitle') }}</h3>
+              <p>{{ $t('home.renameDesc') }}</p>
+            </el-card>
+          </el-col>
+        </el-row>
       </div>
     </el-card>
   </div>
 </template>
 
 <script setup>
-import { Picture, Crop, RefreshRight, Edit } from '@element-plus/icons-vue';
+import { Picture, Crop, RefreshRight, Edit, Document } from '@element-plus/icons-vue';
 </script>
 
 <style scoped>
@@ -76,43 +106,35 @@ import { Picture, Crop, RefreshRight, Edit } from '@element-plus/icons-vue';
   max-width: 1200px;
   margin: 0 auto;
 }
-
 .welcome-card {
   margin-bottom: 20px;
 }
-
 .card-header {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-
 .feature-list {
   margin-top: 20px;
 }
-
 .feature-header {
   display: flex;
   align-items: center;
   gap: 10px;
 }
-
 .feature-description {
   color: #606266;
   font-size: 14px;
   line-height: 1.5;
 }
-
 .el-card {
   margin-bottom: 20px;
   transition: transform 0.3s;
   cursor: pointer;
 }
-
 .el-card:hover {
   transform: translateY(-5px);
 }
-
 @media (max-width: 768px) {
   .home-container {
     padding: 10px;

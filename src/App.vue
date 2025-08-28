@@ -1,8 +1,26 @@
 <template>
   <el-container class="app-container">
     <el-header>
-      <h1>图片工具箱</h1>
-      <p>简单高效的图片处理工具</p>
+      <div class="header-content">
+        <div class="header-title">
+          <h1>{{ $t('header.title') }}</h1>
+          <p>{{ $t('header.subtitle') }}</p>
+        </div>
+        <div class="language-switcher">
+          <el-dropdown @command="handleLanguageChange">
+            <span class="el-dropdown-link">
+              {{ $t(`language.${currentLocale}`) }}<el-icon class="el-icon--right"><arrow-down /></el-icon>
+            </span>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item v-for="lang in availableLocales" :key="lang" :command="lang">
+                  {{ $t(`language.${lang}`) }}
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
+        </div>
+      </div>
     </el-header>
     
     <el-main>
@@ -13,10 +31,10 @@
         router
         @select="handleSelect"
       >
-        <el-menu-item index="/compress">图片压缩</el-menu-item>
-        <el-menu-item index="/crop">图片裁剪</el-menu-item>
-        <el-menu-item index="/convert">格式转换</el-menu-item>
-        <el-menu-item index="/rename">批量重命名</el-menu-item>
+        <el-menu-item index="/compress">{{ $t('menu.compress') }}</el-menu-item>
+        <el-menu-item index="/crop">{{ $t('menu.crop') }}</el-menu-item>
+        <el-menu-item index="/convert">{{ $t('menu.convert') }}</el-menu-item>
+        <el-menu-item index="/rename">{{ $t('menu.rename') }}</el-menu-item>
       </el-menu>
       
       <div class="content-container">
@@ -25,7 +43,7 @@
     </el-main>
     
     <el-footer>
-      <p>© {{ new Date().getFullYear() }} 图片工具箱 - 简单高效的图片处理工具</p>
+      <p>{{ $t('footer.copyright', { year: new Date().getFullYear() }) }}</p>
     </el-footer>
   </el-container>
 </template>
@@ -33,9 +51,24 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
+import { ArrowDown } from '@element-plus/icons-vue'
 
 const route = useRoute()
 const router = useRouter()
+const { t, locale } = useI18n()
+
+// 当前语言
+const currentLocale = computed(() => locale.value)
+
+// 可用语言列表
+const availableLocales = ['zh', 'ja', 'en']
+
+// 处理语言切换
+const handleLanguageChange = (lang) => {
+  locale.value = lang
+  localStorage.setItem('locale', lang)
+}
 
 // 计算当前活动的菜单项
 const activeIndex = computed(() => {
@@ -80,19 +113,41 @@ body {
 .el-header {
   background-color: #409eff;
   color: white;
-  text-align: center;
   padding: 20px;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 }
 
-.el-header h1 {
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-title {
+  text-align: center;
+}
+
+.header-title h1 {
   font-size: 28px;
   margin-bottom: 5px;
 }
 
-.el-header p {
+.header-title p {
   font-size: 16px;
   opacity: 0.8;
+}
+
+.language-switcher {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.el-dropdown-link {
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
 }
 
 /* 主体内容样式 */
