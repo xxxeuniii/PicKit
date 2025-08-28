@@ -6,6 +6,7 @@ export default {
     rename: '一括リネーム'
   },
   home: {
+    welcome: '画像ツールボックスへようこそ',
     title: '画像ツールボックス',
     subtitle: 'シンプルで効率的な画像処理ツール',
     features: {

@@ -1,9 +1,11 @@
 import { createI18n } from 'vue-i18n'
 import zh from './zh.js'
+import en from './en.js'
 import ja from './ja.js'
 
 const messages = {
   zh,
+  en,
   ja
 }
 

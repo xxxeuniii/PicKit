@@ -1,36 +1,43 @@
 <template>
   <el-container class="app-container">
     <el-header>
-      <div style="display: flex;justify-content: space-between;align-items:center;">
-        <div style="display: flex;align-items:baseline;">
-          <h1>{{ $t('home.title') }}</h1>
-          <p>{{ $t('home.subtitle') }}</p>
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        "
+      >
+        <div style="display: flex; align-items: baseline">
+          <h1>{{ $t("home.title") }}</h1>
+          <p>{{ $t("home.subtitle") }}</p>
         </div>
-        <el-dropdown trigger="click" style="margin-left: 20px">
-          <span class="el-dropdown-link" style="color: white; cursor: pointer">
-            {{ locale === 'zh' ? '中文' : '日本語' }}
-            <el-icon class="el-icon--right"><arrow-down /></el-icon>
-          </span>
-          <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item @click="changeLanguage('zh')">
-                <el-icon><i-flag /></el-icon> 中文
-              </el-dropdown-item>
-              <el-dropdown-item @click="changeLanguage('ja')">
-                <el-icon><i-flag /></el-icon> 日本語
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </template>
-        </el-dropdown>
+
+        <el-select
+          v-model="locale"
+          @change="changeLanguage"
+          style="width: 120px"
+        >
+          <el-option label="中文" value="zh"></el-option>
+          <el-option label="English" value="en"></el-option>
+          <el-option label="日本語" value="ja"></el-option>
+        </el-select>
       </div>
     </el-header>
 
     <el-main>
-      <el-menu v-if="route.path !== '/'" :default-active="activeIndex" class="el-menu-demo" mode="horizontal" router @select="handleSelect">
-        <el-menu-item index="/compress">{{ $t('menu.compress') }}</el-menu-item>
-        <el-menu-item index="/crop">{{ $t('menu.crop') }}</el-menu-item>
-        <el-menu-item index="/convert">{{ $t('menu.convert') }}</el-menu-item>
-        <el-menu-item index="/rename">{{ $t('menu.rename') }}</el-menu-item>
+      <el-menu
+        v-if="route.path !== '/'"
+        :default-active="activeIndex"
+        class="el-menu-demo"
+        mode="horizontal"
+        router
+        @select="handleSelect"
+      >
+        <el-menu-item index="/compress">{{ $t("menu.compress") }}</el-menu-item>
+        <el-menu-item index="/crop">{{ $t("menu.crop") }}</el-menu-item>
+        <el-menu-item index="/convert">{{ $t("menu.convert") }}</el-menu-item>
+        <el-menu-item index="/rename">{{ $t("menu.rename") }}</el-menu-item>
       </el-menu>
 
       <div class="content-container">
@@ -39,40 +46,40 @@
     </el-main>
 
     <el-footer>
-      <p>{{ $t('footer.copyright', { year: new Date().getFullYear() }) }}</p>
+      <p>{{ $t("footer.copyright", { year: new Date().getFullYear() }) }}</p>
     </el-footer>
   </el-container>
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { useI18n } from 'vue-i18n'
+import { ref, computed, onMounted } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { useI18n } from "vue-i18n";
 
-const { locale } = useI18n()
-const route = useRoute()
-const router = useRouter()
+const { locale } = useI18n();
+const route = useRoute();
+const router = useRouter();
 
 const changeLanguage = (lang) => {
-  locale.value = lang
-}
+  locale.value = lang;
+};
 
 // 计算当前活动的菜单项
 const activeIndex = computed(() => {
-  return route.path
-})
+  return route.path;
+});
 
 // 处理菜单选择
 const handleSelect = (key) => {
-  router.push(key)
-}
+  router.push(key);
+};
 
 // 组件挂载时，如果是根路径，重定向到压缩页面
 onMounted(() => {
-  if (route.path === '/') {
+  if (route.path === "/") {
     // router.push('/compress')
   }
-})
+});
 </script>
 
 <style>
@@ -84,7 +91,7 @@ onMounted(() => {
 }
 
 body {
-  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
   background-color: #f5f7fa;
   color: #303133;
   line-height: 1.6;
@@ -148,7 +155,7 @@ body {
     flex-wrap: wrap;
   }
 
-  .el-menu--horizontal>.el-menu-item {
+  .el-menu--horizontal > .el-menu-item {
     flex: 1;
     min-width: 120px;
     text-align: center;

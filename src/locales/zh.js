@@ -6,6 +6,7 @@ export default {
     rename: '批量重命名'
   },
   home: {
+    welcome: '欢迎使用图片工具箱',
     title: '图片工具箱',
     subtitle: '简单高效的图片处理工具',
     features: {
