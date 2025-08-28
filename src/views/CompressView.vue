@@ -1,6 +1,6 @@
 <template>
   <div class="compress-view">
-    <h2>{{ $t('compress.title') }}</h2>
+    <h2>图片压缩</h2>
     
     <div class="tool-container">
       <div class="upload-area">
@@ -12,48 +12,48 @@
           :on-change="handleFileChange"
           :show-file-list="false">
           <el-icon class="el-icon--upload"><Upload /></el-icon>
-          <div class="el-upload__text">{{ $t('compress.uploadTip') }} <em>{{ $t('compress.uploadClick') }}</em></div>
+          <div class="el-upload__text">拖拽图片到此处，或 <em>点击上传</em></div>
         </el-upload>
       </div>
       
       <div v-if="imageData.original" class="image-preview-container">
         <div class="image-preview">
-          <h3>{{ $t('compress.original') }}</h3>
-          <img :src="imageData.original.url" :alt="$t('compress.original')" class="preview-img">
+          <h3>原始图片</h3>
+          <img :src="imageData.original.url" alt="原始图片" class="preview-img">
           <div class="image-info">
-            <p>{{ $t('compress.size') }}: {{ imageData.original.width }} x {{ imageData.original.height }} px</p>
-            <p>{{ $t('compress.fileSize') }}: {{ formatFileSize(imageData.original.size) }}</p>
+            <p>尺寸: {{ imageData.original.width }} x {{ imageData.original.height }} px</p>
+            <p>大小: {{ formatFileSize(imageData.original.size) }}</p>
           </div>
         </div>
         
         <div class="compression-controls">
-          <h3>{{ $t('compress.settings') }}</h3>
+          <h3>压缩设置</h3>
           <el-form label-position="top">
-            <el-form-item :label="$t('compress.quality')">
+            <el-form-item label="质量">
               <el-slider v-model="compressQuality" :min="10" :max="100" :step="5" show-stops></el-slider>
               <div class="slider-labels">
-                <span>{{ $t('compress.lowQuality') }}</span>
-                <span>{{ $t('compress.highQuality') }}</span>
+                <span>低质量</span>
+                <span>高质量</span>
               </div>
             </el-form-item>
-            <el-form-item :label="$t('compress.maxWidth')">
+            <el-form-item label="最大宽度">
               <el-input-number v-model="compressMaxWidth" :min="100" :step="100"></el-input-number>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="compressImage">{{ $t('compress.button') }}</el-button>
+              <el-button type="primary" @click="compressImage">压缩图片</el-button>
             </el-form-item>
           </el-form>
         </div>
         
         <div v-if="imageData.compressed" class="image-preview">
-          <h3>{{ $t('compress.compressed') }}</h3>
-          <img :src="imageData.compressed.url" :alt="$t('compress.compressed')" class="preview-img">
+          <h3>压缩后</h3>
+          <img :src="imageData.compressed.url" alt="压缩后图片" class="preview-img">
           <div class="image-info">
-            <p>{{ $t('compress.size') }}: {{ imageData.compressed.width }} x {{ imageData.compressed.height }} px</p>
-            <p>{{ $t('compress.fileSize') }}: {{ formatFileSize(imageData.compressed.size) }}</p>
-            <p>{{ $t('compress.rate') }}: {{ calculateCompressionRate() }}%</p>
+            <p>尺寸: {{ imageData.compressed.width }} x {{ imageData.compressed.height }} px</p>
+            <p>大小: {{ formatFileSize(imageData.compressed.size) }}</p>
+            <p>压缩率: {{ calculateCompressionRate() }}%</p>
           </div>
-          <el-button type="success" @click="downloadImage">{{ $t('compress.download') }}</el-button>
+          <el-button type="success" @click="downloadImage">下载图片</el-button>
         </div>
       </div>
     </div>
@@ -103,7 +103,7 @@ const handleFileChange = (file) => {
 // 压缩图片
 const compressImage = async () => {
   if (!imageData.value.original) {
-    ElMessage.warning($t('compress.uploadFirst'))
+    ElMessage.warning('请先上传图片')
     return
   }
   
@@ -147,10 +147,10 @@ const compressImage = async () => {
       size: blob.size
     }
     
-    ElMessage.success($t('compress.success'))
+    ElMessage.success('图片压缩成功')
   } catch (error) {
     console.error('压缩图片时出错:', error)
-    ElMessage.error($t('compress.fail'))
+    ElMessage.error('压缩图片失败')
   }
 }
 

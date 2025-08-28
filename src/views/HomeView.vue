@@ -3,7 +3,7 @@
     <el-card class="welcome-card">
       <template #header>
         <div class="card-header">
-          <h2>{{ $t('home.welcome') }}</h2>
+          <h2>欢迎使用图片工具箱</h2>
         </div>
       </template>
       <div class="feature-list">
@@ -13,11 +13,11 @@
               <template #header>
                 <div class="feature-header">
                   <el-icon><Picture /></el-icon>
-                  <h3>{{ $t('home.features.compress.title') }}</h3>
+                  <h3>图片压缩</h3>
                 </div>
               </template>
               <div class="feature-description">
-                {{ $t('home.features.compress.description') }}
+                压缩图片大小，保持适当的图片质量，减小文件体积，提高加载速度。
               </div>
             </el-card>
           </el-col>
@@ -26,11 +26,11 @@
               <template #header>
                 <div class="feature-header">
                   <el-icon><Crop /></el-icon>
-                  <h3>{{ $t('home.features.crop.title') }}</h3>
+                  <h3>图片裁剪</h3>
                 </div>
               </template>
               <div class="feature-description">
-                {{ $t('home.features.crop.description') }}
+                自由裁剪图片尺寸，调整图片比例，获取需要的图片区域。
               </div>
             </el-card>
           </el-col>
@@ -39,11 +39,11 @@
               <template #header>
                 <div class="feature-header">
                   <el-icon><RefreshRight /></el-icon>
-                  <h3>{{ $t('home.features.convert.title') }}</h3>
+                  <h3>格式转换</h3>
                 </div>
               </template>
               <div class="feature-description">
-                {{ $t('home.features.convert.description') }}
+                将图片转换为不同格式，支持JPG、PNG、WEBP等常见格式互转。
               </div>
             </el-card>
           </el-col>
@@ -52,11 +52,11 @@
               <template #header>
                 <div class="feature-header">
                   <el-icon><Edit /></el-icon>
-                  <h3>{{ $t('home.features.rename.title') }}</h3>
+                  <h3>批量重命名</h3>
                 </div>
               </template>
               <div class="feature-description">
-                {{ $t('home.features.rename.description') }}
+                批量处理图片文件名，支持添加前缀、后缀、序号等多种命名方式。
               </div>
             </el-card>
           </el-col>

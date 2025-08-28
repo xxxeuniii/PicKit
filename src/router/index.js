@@ -27,7 +27,7 @@ const router = createRouter({
       path: '/rename',
       name: 'rename',
       component: () => import('../views/RenameView.vue')
-    } 
+    }
   ]
 })
 

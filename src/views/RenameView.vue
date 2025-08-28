@@ -3,7 +3,7 @@
     <el-card class="rename-card">
       <template #header>
         <div class="card-header">
-          <h2>{{ $t('rename.title') }}</h2>
+          <h2>批量重命名</h2>
         </div>
       </template>
       
@@ -19,11 +19,11 @@
         >
           <el-icon class="el-icon--upload"><upload-filled /></el-icon>
           <div class="el-upload__text">
-            {{ $t('rename.uploadText') }}
+            拖拽图片到此处，或 <em>点击上传</em>
           </div>
           <template #tip>
             <div class="el-upload__tip">
-              {{ $t('rename.uploadTip') }}
+              支持批量上传多个图片文件
             </div>
           </template>
         </el-upload>
@@ -31,74 +31,74 @@
       
       <div v-if="fileList.length > 0" class="rename-workspace">
         <div class="rename-options">
-          <h3>{{ $t('rename.optionsTitle') }}</h3>
+          <h3>重命名选项</h3>
           
           <el-form :model="renameOptions" label-width="100px">
-            <el-form-item label="{{ $t('rename.mode') }}">
+            <el-form-item label="命名模式">
               <el-radio-group v-model="renameOptions.mode">
-                <el-radio-button label="prefix">{{ $t('rename.prefix') }}</el-radio-button>
-                <el-radio-button label="suffix">{{ $t('rename.suffix') }}</el-radio-button>
-                <el-radio-button label="replace">{{ $t('rename.replace') }}</el-radio-button>
-                <el-radio-button label="sequence">{{ $t('rename.sequence') }}</el-radio-button>
+                <el-radio-button label="prefix">添加前缀</el-radio-button>
+                <el-radio-button label="suffix">添加后缀</el-radio-button>
+                <el-radio-button label="replace">查找替换</el-radio-button>
+                <el-radio-button label="sequence">序列命名</el-radio-button>
               </el-radio-group>
             </el-form-item>
             
             <template v-if="renameOptions.mode === 'prefix'">
-              <el-form-item label="{{ $t('rename.prefixText') }}">
-                <el-input v-model="renameOptions.prefix" :placeholder="$t('rename.prefixPlaceholder')"></el-input>
+              <el-form-item label="前缀文本">
+                <el-input v-model="renameOptions.prefix" placeholder="请输入要添加的前缀"></el-input>
               </el-form-item>
             </template>
             
             <template v-if="renameOptions.mode === 'suffix'">
-              <el-form-item label="{{ $t('rename.suffixText') }}">
-                <el-input v-model="renameOptions.suffix" :placeholder="$t('rename.suffixPlaceholder')"></el-input>
+              <el-form-item label="后缀文本">
+                <el-input v-model="renameOptions.suffix" placeholder="请输入要添加的后缀"></el-input>
               </el-form-item>
-              <el-form-item label="{{ $t('rename.suffixPosition') }}">
+              <el-form-item label="添加位置">
                 <el-radio-group v-model="renameOptions.suffixPosition">
-                  <el-radio label="beforeExt">{{ $t('rename.beforeExt') }}</el-radio>
-                  <el-radio label="afterExt">{{ $t('rename.afterExt') }}</el-radio>
+                  <el-radio label="beforeExt">扩展名之前</el-radio>
+                  <el-radio label="afterExt">扩展名之后</el-radio>
                 </el-radio-group>
               </el-form-item>
             </template>
             
             <template v-if="renameOptions.mode === 'replace'">
-              <el-form-item label="{{ $t('rename.findText') }}">
-                <el-input v-model="renameOptions.findText" :placeholder="$t('rename.findPlaceholder')"></el-input>
+              <el-form-item label="查找文本">
+                <el-input v-model="renameOptions.findText" placeholder="请输入要查找的文本"></el-input>
               </el-form-item>
-              <el-form-item label="{{ $t('rename.replaceText') }}">
-                <el-input v-model="renameOptions.replaceText" :placeholder="$t('rename.replacePlaceholder')"></el-input>
+              <el-form-item label="替换为">
+                <el-input v-model="renameOptions.replaceText" placeholder="请输入要替换的文本"></el-input>
               </el-form-item>
             </template>
             
             <template v-if="renameOptions.mode === 'sequence'">
-              <el-form-item label="{{ $t('rename.baseName') }}">
-                <el-input v-model="renameOptions.baseName" :placeholder="$t('rename.baseNamePlaceholder')"></el-input>
+              <el-form-item label="基本名称">
+                <el-input v-model="renameOptions.baseName" placeholder="请输入基本名称"></el-input>
               </el-form-item>
-              <el-form-item label="{{ $t('rename.startNumber') }}">
+              <el-form-item label="起始编号">
                 <el-input-number v-model="renameOptions.startNumber" :min="0" :step="1"></el-input-number>
               </el-form-item>
-              <el-form-item label="{{ $t('rename.digitCount') }}">
+              <el-form-item label="数字位数">
                 <el-input-number v-model="renameOptions.digitCount" :min="1" :max="10" :step="1"></el-input-number>
               </el-form-item>
             </template>
             
             <el-form-item>
-              <el-button type="primary" @click="applyRename">{{ $t('rename.apply') }}</el-button>
-              <el-button @click="resetOptions">{{ $t('rename.reset') }}</el-button>
+              <el-button type="primary" @click="applyRename">应用重命名</el-button>
+              <el-button @click="resetOptions">重置选项</el-button>
             </el-form-item>
           </el-form>
         </div>
         
         <div class="file-list">
-          <h3>{{ $t('rename.fileListTitle', { count: fileList.length }) }}</h3>
+          <h3>文件列表 ({{ fileList.length }}个文件)</h3>
           <el-table :data="fileList" style="width: 100%">
-            <el-table-column :label="$t('rename.originalName')" prop="originalName" min-width="180"></el-table-column>
-            <el-table-column :label="$t('rename.previewName')" min-width="180">
+            <el-table-column label="原始文件名" prop="originalName" min-width="180"></el-table-column>
+            <el-table-column label="预览新文件名" min-width="180">
               <template #default="scope">
                 <span>{{ getPreviewName(scope.row) }}</span>
               </template>
             </el-table-column>
-            <el-table-column :label="$t('rename.action')" width="120">
+            <el-table-column label="操作" width="120">
               <template #default="scope">
                 <el-button type="danger" size="small" @click="removeFile(scope.$index)">
                   <el-icon><Delete /></el-icon>
@@ -109,9 +109,9 @@
         </div>
         
         <div class="download-section" v-if="renamedFiles.length > 0">
-          <el-divider>{{ $t('rename.done') }}</el-divider>
+          <el-divider>重命名完成</el-divider>
           <el-button type="success" @click="downloadAllFiles">
-            <el-icon><Download /></el-icon> {{ $t('rename.downloadAll') }}
+            <el-icon><Download /></el-icon> 下载所有重命名后的文件
           </el-button>
         </div>
       </div>
@@ -366,12 +366,3 @@ const resetOptions = () => {
   }
 }
 </style>
-
-ElMessage.warning($t('rename.uploadImageWarning'));
-ElMessage.warning($t('rename.uploadFileWarning'));
-ElMessage.warning($t('rename.prefixWarning'));
-ElMessage.warning($t('rename.suffixWarning'));
-ElMessage.warning($t('rename.findWarning'));
-ElMessage.warning($t('rename.baseNameWarning'));
-ElMessage.success($t('rename.success', { count: results.length }));
-ElMessage.warning($t('rename.noDownloadWarning'));
