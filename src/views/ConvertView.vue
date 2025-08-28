@@ -7,17 +7,10 @@
           <h2>{{ $t('menu.convert') }}</h2>
         </div>
       </template>
-      
+
       <div class="upload-area" v-if="!imageUrl">
-        <el-upload
-          class="upload-box"
-          drag
-          action=""
-          :auto-upload="false"
-          :show-file-list="false"
-          :on-change="handleFileChange"
-          :multiple="false"
-        >
+        <el-upload class="upload-box" drag action="" :auto-upload="false" :show-file-list="false"
+          :on-change="handleFileChange" :multiple="false">
           <el-icon class="el-icon--upload"><upload-filled /></el-icon>
           <div class="el-upload__text">
             {{ $t('convert.uploadText') }} <em>{{ $t('convert.clickUpload') }}</em>
@@ -29,7 +22,7 @@
           </template>
         </el-upload>
       </div>
-      
+
       <div v-if="imageUrl" class="convert-workspace">
         <div class="image-preview">
           <h3>{{ $t('convert.originalImage') }}</h3>
@@ -39,10 +32,12 @@
           <div class="image-info">
             <p><strong>{{ $t('convert.fileName') }}：</strong>{{ originalFileName }}</p>
             <p><strong>{{ $t('convert.originalFormat') }}：</strong>{{ originalFormat }}</p>
-            <p><strong>{{ $t('convert.dimensions') }}：</strong>{{ imageWidth }} x {{ imageHeight }} {{ $t('convert.pixels') }}</p>
+            <p><strong>{{ $t('convert.dimensions') }}：</strong>{{ imageWidth }} x {{ imageHeight }} {{
+              $t('convert.pixels') }}
+            </p>
           </div>
         </div>
-        
+
         <div class="convert-controls">
           <div class="format-selection">
             <span class="control-label">{{ $t('convert.targetFormat') }}：</span>
@@ -53,7 +48,7 @@
               <el-radio-button label="image/gif" :disabled="!supportsGif">GIF</el-radio-button>
             </el-radio-group>
           </div>
-          
+
           <div class="quality-control" v-if="targetFormat === 'image/jpeg' || targetFormat === 'image/webp'">
             <span class="control-label">{{ $t('convert.quality') }}：</span>
             <div class="quality-slider">
@@ -64,18 +59,22 @@
               </el-slider>
             </div>
           </div>
-          
+
           <div class="action-buttons">
             <el-button @click="resetImage" plain type="info">
-              <el-icon><Delete /></el-icon> {{ $t('convert.clear') }}
+              <el-icon>
+                <Delete />
+              </el-icon> {{ $t('convert.clear') }}
             </el-button>
             <el-button @click="convertImage" type="primary">
-              <el-icon><RefreshRight /></el-icon> {{ $t('convert.convertButton') }}
+              <el-icon>
+                <RefreshRight />
+              </el-icon> {{ $t('convert.convertButton') }}
             </el-button>
           </div>
         </div>
       </div>
-      
+
       <div v-if="convertedImageUrl" class="result-preview">
         <h3>{{ $t('convert.result') }}</h3>
         <div class="preview-image">
@@ -83,10 +82,14 @@
         </div>
         <div class="download-actions">
           <el-button type="success" @click="downloadConvertedImage">
-            <el-icon><Download /></el-icon> {{ $t('convert.downloadButton') }}
+            <el-icon>
+              <Download />
+            </el-icon> {{ $t('convert.downloadButton') }}
           </el-button>
           <el-button @click="convertAnother">
-            <el-icon><Plus /></el-icon> {{ $t('convert.convertAnother') }}
+            <el-icon>
+              <Plus />
+            </el-icon> {{ $t('convert.convertAnother') }}
           </el-button>
         </div>
       </div>
@@ -96,11 +99,11 @@
 
 <script setup>
 import { ref, computed } from 'vue';
-import { useI18n } from 'vue-i18n';
 import { UploadFilled, RefreshRight, Delete, Download, Plus } from '@element-plus/icons-vue';
 import { ElMessage } from 'element-plus';
 
-const { t } = useI18n();
+const { appContext } = getCurrentInstance()
+const t = appContext.config.globalProperties.$t
 
 const imageUrl = ref('');
 const convertedImageUrl = ref('');
@@ -123,14 +126,14 @@ const supportsGif = computed(() => {
 
 const handleFileChange = (file) => {
   if (!file) return;
-  
+
   originalFile.value = file.raw;
   originalFileName.value = file.name;
-  
+
   const reader = new FileReader();
   reader.onload = (e) => {
     imageUrl.value = e.target.result;
-    
+
     // 获取图片尺寸
     const img = new Image();
     img.onload = () => {
@@ -144,23 +147,23 @@ const handleFileChange = (file) => {
 
 const convertImage = () => {
   if (!imageUrl.value) return;
-  
+
   const img = new Image();
   img.onload = () => {
     const canvas = document.createElement('canvas');
     canvas.width = img.width;
     canvas.height = img.height;
-    
+
     const ctx = canvas.getContext('2d');
     ctx.drawImage(img, 0, 0);
-    
+
     try {
       // 根据目标格式和质量设置转换图片
       const options = {};
       if (targetFormat.value === 'image/jpeg' || targetFormat.value === 'image/webp') {
         options.quality = quality.value / 100;
       }
-      
+
       convertedImageUrl.value = canvas.toDataURL(targetFormat.value, options.quality);
       ElMessage.success(t('convert.successMessage'));
     } catch (error) {
@@ -173,10 +176,10 @@ const convertImage = () => {
 
 const downloadConvertedImage = () => {
   if (!convertedImageUrl.value) return;
-  
+
   const extension = targetFormat.value.split('/')[1];
   const fileName = originalFileName.value.split('.')[0] || 'converted';
-  
+
   const link = document.createElement('a');
   link.download = `${fileName}.${extension}`;
   link.href = convertedImageUrl.value;
@@ -208,6 +211,7 @@ const convertAnother = () => {
 .card-header h2 {
   color: #409eff;
 }
+
 .convert-container {
   padding: 20px;
   max-width: 1200px;
@@ -336,17 +340,17 @@ const convertAnother = () => {
   .convert-container {
     padding: 10px;
   }
-  
+
   .format-selection,
   .quality-control {
     flex-direction: column;
     align-items: flex-start;
   }
-  
+
   .control-label {
     margin-bottom: 5px;
   }
-  
+
   .quality-slider {
     width: 100%;
     margin-left: 0;

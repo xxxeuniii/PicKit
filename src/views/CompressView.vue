@@ -74,9 +74,8 @@ import { ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import { Upload } from '@element-plus/icons-vue'
 import pica from 'pica'
-import { useI18n } from 'vue-i18n'
-
-const { t } = useI18n()
+const { appContext } = getCurrentInstance()
+const t = appContext.config.globalProperties.$t
 
 // 图片数据
 const imageData = ref({

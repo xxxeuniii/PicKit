@@ -117,12 +117,12 @@
 
 <script setup>
 import { ref, reactive } from 'vue';
-import { useI18n } from 'vue-i18n';
 import { UploadFilled, Delete, Download } from '@element-plus/icons-vue';
 import { ElMessage } from 'element-plus';
 import JSZip from 'jszip';
 
-const { t } = useI18n();
+const { appContext } = getCurrentInstance()
+const t = appContext.config.globalProperties.$t
 const fileList = ref([]);
 const renamedFiles = ref([]);
 

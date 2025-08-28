@@ -112,13 +112,12 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
-import { useI18n } from 'vue-i18n';
-import { UploadFilled, Refresh, RefreshRight, RefreshLeft, DCaret, Crop, Download, Delete } from '@element-plus/icons-vue';
+ import { UploadFilled, Refresh, RefreshRight, RefreshLeft, DCaret, Crop, Download, Delete } from '@element-plus/icons-vue';
 import Cropper from 'cropperjs';
 import 'cropperjs/dist/cropper.css';
 
-const { t } = useI18n();
-
+const { appContext } = getCurrentInstance()
+const t = appContext.config.globalProperties.$t
 const imageUrl = ref('');
 const cropperImage = ref(null);
 const croppedImageUrl = ref('');
