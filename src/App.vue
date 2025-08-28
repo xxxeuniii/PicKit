@@ -1,19 +1,37 @@
 <template>
   <el-container class="app-container">
     <el-header>
-      <div style="display: flex;justify-content: flex-start;align-items:baseline;">
-
-        <h1>图片工具箱</h1>
-        <p>简单高效的图片处理工具</p>
-      </div>
-    </el-header>
+      <div style="display: flex;justify-content: space-between;align-items:center;">
+        <div style="display: flex;align-items:baseline;">
+          <h1>{{ $t('home.title') }}</h1>
+          <p>{{ $t('home.subtitle') }}</p>
+        </div>
+        <el-dropdown trigger="click" style="margin-left: 20px">
+          <span class="el-dropdown-link" style="color: white; cursor: pointer">
+            {{ locale === 'zh' ? '中文' : '日本語' }}
+            <el-icon class="el-icon--right"><arrow-down /></el-icon>
+          </span>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item @click="changeLanguage('zh')">
+                <!-- <el-icon><i-flag /></el-icon>  -->
+                中文
+              </el-dropdown-item>
+              <el-dropdown-item @click="changeLanguage('ja')">
+                <!-- <el-icon><i-flag /></el-icon>  -->
+                日本語
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+     </el-header>
 
     <el-main>
       <el-menu v-if="route.path !== '/'" :default-active="activeIndex" class="el-menu-demo" mode="horizontal" router @select="handleSelect">
-        <el-menu-item index="/compress">图片压缩</el-menu-item>
-        <el-menu-item index="/crop">图片裁剪</el-menu-item>
-        <el-menu-item index="/convert">格式转换</el-menu-item>
-        <el-menu-item index="/rename">批量重命名</el-menu-item>
+        <el-menu-item index="/compress">{{ $t('menu.compress') }}</el-menu-item>
+        <el-menu-item index="/crop">{{ $t('menu.crop') }}</el-menu-item>
+        <el-menu-item index="/convert">{{ $t('menu.convert') }}</el-menu-item>
+        <el-menu-item index="/rename">{{ $t('menu.rename') }}</el-menu-item>
       </el-menu>
 
       <div class="content-container">
@@ -22,7 +40,7 @@
     </el-main>
 
     <el-footer>
-      <p>© {{ new Date().getFullYear() }} 图片工具箱 - 简单高效的图片处理工具</p>
+      <p>{{ $t('footer.copyright', { year: new Date().getFullYear() }) }}</p>
     </el-footer>
   </el-container>
 </template>
@@ -30,9 +48,15 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 
+const { locale } = useI18n()
 const route = useRoute()
 const router = useRouter()
+
+const changeLanguage = (lang) => {
+  locale.value = lang
+}
 
 // 计算当前活动的菜单项
 const activeIndex = computed(() => {
