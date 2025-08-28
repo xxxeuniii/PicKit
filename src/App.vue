@@ -10,6 +10,8 @@
       >
         <div style="display: flex; align-items: baseline">
           <h1>{{ $t("home.title") }}</h1>
+          <div style="width:10px">
+          </div>
           <p>{{ $t("home.subtitle") }}</p>
         </div>
 

@@ -3,7 +3,7 @@
     <el-card shadow="never">
       <template #header>
         <div class="card-header">
-          <h2>图片格式转换</h2>
+          <h2>{{ $t('menu.convert') }}</h2>
         </div>
       </template>
       
@@ -19,11 +19,11 @@
         >
           <el-icon class="el-icon--upload"><upload-filled /></el-icon>
           <div class="el-upload__text">
-            拖拽图片到此处，或 <em>点击上传</em>
+            {{ $t('convert.uploadText') }} <em>{{ $t('convert.clickUpload') }}</em>
           </div>
           <template #tip>
             <div class="el-upload__tip">
-              支持JPG、PNG、GIF、WEBP等常见图片格式
+              {{ $t('convert.supportedFormats') }}
             </div>
           </template>
         </el-upload>
@@ -31,20 +31,20 @@
       
       <div v-if="imageUrl" class="convert-workspace">
         <div class="image-preview">
-          <h3>原始图片</h3>
+          <h3>{{ $t('convert.originalImage') }}</h3>
           <div class="preview-box">
-            <img :src="imageUrl" alt="原始图片" />
+            <img :src="imageUrl" :alt="$t('convert.originalImage')" />
           </div>
           <div class="image-info">
-            <p><strong>文件名：</strong>{{ originalFileName }}</p>
-            <p><strong>原始格式：</strong>{{ originalFormat }}</p>
-            <p><strong>图片尺寸：</strong>{{ imageWidth }} x {{ imageHeight }} 像素</p>
+            <p><strong>{{ $t('convert.fileName') }}：</strong>{{ originalFileName }}</p>
+            <p><strong>{{ $t('convert.originalFormat') }}：</strong>{{ originalFormat }}</p>
+            <p><strong>{{ $t('convert.dimensions') }}：</strong>{{ imageWidth }} x {{ imageHeight }} {{ $t('convert.pixels') }}</p>
           </div>
         </div>
         
         <div class="convert-controls">
           <div class="format-selection">
-            <span class="control-label">目标格式：</span>
+            <span class="control-label">{{ $t('convert.targetFormat') }}：</span>
             <el-radio-group v-model="targetFormat">
               <el-radio-button label="image/jpeg">JPG</el-radio-button>
               <el-radio-button label="image/png">PNG</el-radio-button>
@@ -54,7 +54,7 @@
           </div>
           
           <div class="quality-control" v-if="targetFormat === 'image/jpeg' || targetFormat === 'image/webp'">
-            <span class="control-label">质量：</span>
+            <span class="control-label">{{ $t('convert.quality') }}：</span>
             <div class="quality-slider">
               <el-slider v-model="quality" :min="10" :max="100" :step="5" show-stops>
                 <template #default="{ value }">
@@ -66,26 +66,26 @@
           
           <div class="action-buttons">
             <el-button @click="resetImage" plain type="info">
-              <el-icon><Delete /></el-icon> 清除
+              <el-icon><Delete /></el-icon> {{ $t('convert.clear') }}
             </el-button>
             <el-button @click="convertImage" type="primary">
-              <el-icon><RefreshRight /></el-icon> 转换
+              <el-icon><RefreshRight /></el-icon> {{ $t('convert.convertButton') }}
             </el-button>
           </div>
         </div>
       </div>
       
       <div v-if="convertedImageUrl" class="result-preview">
-        <h3>转换结果</h3>
+        <h3>{{ $t('convert.result') }}</h3>
         <div class="preview-image">
-          <img :src="convertedImageUrl" alt="转换后的图片" />
+          <img :src="convertedImageUrl" :alt="$t('convert.convertedImage')" />
         </div>
         <div class="download-actions">
           <el-button type="success" @click="downloadConvertedImage">
-            <el-icon><Download /></el-icon> 下载转换后的图片
+            <el-icon><Download /></el-icon> {{ $t('convert.downloadButton') }}
           </el-button>
           <el-button @click="convertAnother">
-            <el-icon><Plus /></el-icon> 转换另一张图片
+            <el-icon><Plus /></el-icon> {{ $t('convert.convertAnother') }}
           </el-button>
         </div>
       </div>
@@ -95,8 +95,11 @@
 
 <script setup>
 import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { UploadFilled, RefreshRight, Delete, Download, Plus } from '@element-plus/icons-vue';
 import { ElMessage } from 'element-plus';
+
+const { t } = useI18n();
 
 const imageUrl = ref('');
 const convertedImageUrl = ref('');
@@ -109,7 +112,7 @@ const imageHeight = ref(0);
 
 const originalFormat = computed(() => {
   if (!originalFile.value) return '';
-  return originalFile.value.type || '未知格式';
+  return originalFile.value.type || t('convert.unknownFormat');
 });
 
 const supportsGif = computed(() => {
@@ -158,9 +161,9 @@ const convertImage = () => {
       }
       
       convertedImageUrl.value = canvas.toDataURL(targetFormat.value, options.quality);
-      ElMessage.success('图片格式转换成功！');
+      ElMessage.success(t('convert.successMessage'));
     } catch (error) {
-      ElMessage.error('图片格式转换失败，请尝试其他格式。');
+      ElMessage.error(t('convert.errorMessage'));
       console.error('转换错误:', error);
     }
   };

@@ -3,7 +3,7 @@
     <el-card shadow="never">
       <template #header>
         <div class="card-header">
-          <h2>图片裁剪</h2>
+          <h2>{{ $t('menu.crop') }}</h2>
         </div>
       </template>
 
@@ -12,11 +12,11 @@
           :on-change="handleFileChange">
           <el-icon class="el-icon--upload"><upload-filled /></el-icon>
           <div class="el-upload__text">
-            拖拽图片到此处，或 <em>点击上传</em>
+            {{ $t('crop.uploadText') }} <em>{{ $t('crop.clickUpload') }}</em>
           </div>
           <template #tip>
             <div class="el-upload__tip">
-              支持JPG、PNG、GIF等常见图片格式
+              {{ $t('crop.supportedFormats') }}
             </div>
           </template>
         </el-upload>
@@ -31,9 +31,9 @@
 
         <div class="crop-controls">
           <div class="aspect-ratio-controls">
-            <span class="control-label">宽高比例：</span>
+            <span class="control-label">{{ $t('crop.aspectRatio') }}：</span>
             <el-radio-group v-model="aspectRatio" @change="updateCropperAspectRatio">
-              <el-radio-button label="free">自由</el-radio-button>
+              <el-radio-button label="free">{{ $t('crop.aspectRatios.free') }}</el-radio-button>
               <el-radio-button label="1:1">1:1</el-radio-button>
               <el-radio-button label="4:3">4:3</el-radio-button>
               <el-radio-button label="16:9">16:9</el-radio-button>
@@ -41,33 +41,33 @@
           </div>
 
           <div class="rotation-controls">
-            <span class="control-label">旋转：</span>
+            <span class="control-label">{{ $t('crop.rotation') }}：</span>
             <el-button-group>
               <el-button @click="rotateCropper(-90)" type="primary" plain>
                 <el-icon>
                   <Refresh />
-                </el-icon> 向左旋转
+                </el-icon> {{ $t('crop.rotateLeft') }}
               </el-button>
               <el-button @click="rotateCropper(90)" type="primary" plain>
                 <el-icon>
                   <RefreshRight />
-                </el-icon> 向右旋转
+                </el-icon> {{ $t('crop.rotateRight') }}
               </el-button>
             </el-button-group>
           </div>
 
           <div class="flip-controls">
-            <span class="control-label">翻转：</span>
+            <span class="control-label">{{ $t('crop.flip') }}：</span>
             <el-button-group>
               <el-button @click="flipCropperHorizontal" type="primary" plain>
                 <el-icon>
                   <DCaret />
-                </el-icon> 水平翻转
+                </el-icon> {{ $t('crop.flipHorizontal') }}
               </el-button>
               <el-button @click="flipCropperVertical" type="primary" plain>
                 <el-icon>
                   <DCaret class="vertical-icon" />
-                </el-icon> 垂直翻转
+                </el-icon> {{ $t('crop.flipVertical') }}
               </el-button>
             </el-button-group>
           </div>
@@ -76,32 +76,32 @@
             <el-button @click="resetImage" plain type="info">
               <el-icon>
                 <RefreshLeft />
-              </el-icon> 重置
+              </el-icon> {{ $t('crop.reset') }}
             </el-button>
             <el-button @click="cropImage" type="success">
               <el-icon>
                 <Crop />
-              </el-icon> 裁剪
+              </el-icon> {{ $t('crop.cropButton') }}
             </el-button>
           </div>
         </div>
       </div>
 
       <div v-if="croppedImageUrl" class="result-preview">
-        <h3>裁剪结果</h3>
+        <h3>{{ $t('crop.result') }}</h3>
         <div class="preview-image">
-          <img :src="croppedImageUrl" alt="裁剪后的图片" />
+          <img :src="croppedImageUrl" :alt="$t('crop.croppedImage')" />
         </div>
         <div class="download-actions">
           <el-button type="primary" @click="downloadCroppedImage">
             <el-icon>
               <Download />
-            </el-icon> 下载裁剪后的图片
+            </el-icon> {{ $t('crop.downloadButton') }}
           </el-button>
           <el-button @click="resetAll">
             <el-icon>
               <Delete />
-            </el-icon> 清除并重新开始
+            </el-icon> {{ $t('crop.clearAndRestart') }}
           </el-button>
         </div>
       </div>
@@ -111,9 +111,12 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { UploadFilled, Refresh, RefreshRight, RefreshLeft, DCaret, Crop, Download, Delete } from '@element-plus/icons-vue';
 import Cropper from 'cropperjs';
 import 'cropperjs/dist/cropper.css';
+
+const { t } = useI18n();
 
 const imageUrl = ref('');
 const cropperImage = ref(null);
@@ -282,11 +285,8 @@ onUnmounted(() => {
 .crop-area {
   width: 100%;
   height: 50vh;
-  /* 占据 70% 视口高度 */
   max-height: 800px;
-  /* 最大高度限制，避免超大 */
   min-height: 400px;
-  /* 保证最小可用高度 */
   overflow: hidden;
   margin: 0 auto;
 }
@@ -303,7 +303,6 @@ onUnmounted(() => {
 @media (max-width: 768px) {
   .crop-area {
     height: 50vh;
-    /* 小屏幕缩小一点 */
     min-height: 300px;
   }
 }
