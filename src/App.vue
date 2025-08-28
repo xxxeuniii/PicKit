@@ -14,17 +14,16 @@
           <template #dropdown>
             <el-dropdown-menu>
               <el-dropdown-item @click="changeLanguage('zh')">
-                <!-- <el-icon><i-flag /></el-icon>  -->
-                中文
+                <el-icon><i-flag /></el-icon> 中文
               </el-dropdown-item>
               <el-dropdown-item @click="changeLanguage('ja')">
-                <!-- <el-icon><i-flag /></el-icon>  -->
-                日本語
+                <el-icon><i-flag /></el-icon> 日本語
               </el-dropdown-item>
             </el-dropdown-menu>
           </template>
         </el-dropdown>
-     </el-header>
+      </div>
+    </el-header>
 
     <el-main>
       <el-menu v-if="route.path !== '/'" :default-active="activeIndex" class="el-menu-demo" mode="horizontal" router @select="handleSelect">
