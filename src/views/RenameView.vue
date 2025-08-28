@@ -1,4 +1,5 @@
 <template>
+  <!-- 批量重命名 -->
   <div class="rename-container">
     <el-card shadow="never">
       <template #header>

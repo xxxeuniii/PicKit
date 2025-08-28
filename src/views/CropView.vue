@@ -1,4 +1,5 @@
 <template>
+  <!-- 图片裁剪 -->
   <div class="crop-container">
     <el-card shadow="never">
       <template #header>

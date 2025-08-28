@@ -1,4 +1,5 @@
 <template>
+  <!-- 图片压缩 -->
   <div class="compress-view">
     <el-card shadow="never">
       <template #header>

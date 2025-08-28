@@ -8,7 +8,7 @@ export default defineConfig({
   plugins: [
     vue(),
     sitemapPlugin({
-      hostname: 'https://pickit.example.com',
+      hostname: 'https://pic-kit.vercel.app',
       dynamicRoutes: [
         '/',
         '/compress',
