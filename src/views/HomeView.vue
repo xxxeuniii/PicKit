@@ -1,6 +1,6 @@
 <template>
   <div class="home-container">
-    <el-card class="welcome-card">
+    <el-card shadow="never">
       <template #header>
         <div class="card-header">
           <h2>欢迎使用图片工具箱</h2>

@@ -1,21 +1,15 @@
 <template>
   <div class="crop-container">
-    <el-card class="crop-card">
+    <el-card shadow="never">
       <template #header>
         <div class="card-header">
           <h2>图片裁剪</h2>
         </div>
       </template>
-      
+
       <div class="upload-area" v-if="!imageUrl">
-        <el-upload
-          class="upload-box"
-          drag
-          action=""
-          :auto-upload="false"
-          :show-file-list="false"
-          :on-change="handleFileChange"
-        >
+        <el-upload class="upload-box" drag action="" :auto-upload="false" :show-file-list="false"
+          :on-change="handleFileChange">
           <el-icon class="el-icon--upload"><upload-filled /></el-icon>
           <div class="el-upload__text">
             拖拽图片到此处，或 <em>点击上传</em>
@@ -27,14 +21,14 @@
           </template>
         </el-upload>
       </div>
-      
+
       <div v-if="imageUrl" class="crop-workspace">
         <div class="crop-area">
           <div class="cropper-container">
             <img ref="cropperImage" :src="imageUrl" style="display: none;" />
           </div>
         </div>
-        
+
         <div class="crop-controls">
           <div class="aspect-ratio-controls">
             <span class="control-label">宽高比例：</span>
@@ -45,42 +39,54 @@
               <el-radio-button label="16:9">16:9</el-radio-button>
             </el-radio-group>
           </div>
-          
+
           <div class="rotation-controls">
             <span class="control-label">旋转：</span>
             <el-button-group>
               <el-button @click="rotateCropper(-90)" type="primary" plain>
-                <el-icon><Refresh /></el-icon> 向左旋转
+                <el-icon>
+                  <Refresh />
+                </el-icon> 向左旋转
               </el-button>
               <el-button @click="rotateCropper(90)" type="primary" plain>
-                <el-icon><RefreshRight /></el-icon> 向右旋转
+                <el-icon>
+                  <RefreshRight />
+                </el-icon> 向右旋转
               </el-button>
             </el-button-group>
           </div>
-          
+
           <div class="flip-controls">
             <span class="control-label">翻转：</span>
             <el-button-group>
               <el-button @click="flipCropperHorizontal" type="primary" plain>
-                <el-icon><DCaret /></el-icon> 水平翻转
+                <el-icon>
+                  <DCaret />
+                </el-icon> 水平翻转
               </el-button>
               <el-button @click="flipCropperVertical" type="primary" plain>
-                <el-icon><DCaret class="vertical-icon" /></el-icon> 垂直翻转
+                <el-icon>
+                  <DCaret class="vertical-icon" />
+                </el-icon> 垂直翻转
               </el-button>
             </el-button-group>
           </div>
-          
+
           <div class="action-buttons">
             <el-button @click="resetImage" plain type="info">
-              <el-icon><RefreshLeft /></el-icon> 重置
+              <el-icon>
+                <RefreshLeft />
+              </el-icon> 重置
             </el-button>
             <el-button @click="cropImage" type="success">
-              <el-icon><Crop /></el-icon> 裁剪
+              <el-icon>
+                <Crop />
+              </el-icon> 裁剪
             </el-button>
           </div>
         </div>
       </div>
-      
+
       <div v-if="croppedImageUrl" class="result-preview">
         <h3>裁剪结果</h3>
         <div class="preview-image">
@@ -88,10 +94,14 @@
         </div>
         <div class="download-actions">
           <el-button type="primary" @click="downloadCroppedImage">
-            <el-icon><Download /></el-icon> 下载裁剪后的图片
+            <el-icon>
+              <Download />
+            </el-icon> 下载裁剪后的图片
           </el-button>
           <el-button @click="resetAll">
-            <el-icon><Delete /></el-icon> 清除并重新开始
+            <el-icon>
+              <Delete />
+            </el-icon> 清除并重新开始
           </el-button>
         </div>
       </div>
@@ -114,7 +124,7 @@ const originalFile = ref(null);
 
 const handleFileChange = (file) => {
   if (!file) return;
-  
+
   originalFile.value = file.raw;
   const reader = new FileReader();
   reader.onload = (e) => {
@@ -131,7 +141,7 @@ const initCropper = () => {
   if (cropper.value) {
     cropper.value.destroy();
   }
-  
+
   cropper.value = new Cropper(cropperImage.value, {
     aspectRatio: getAspectRatioValue(),
     viewMode: 1,
@@ -150,8 +160,8 @@ const initCropper = () => {
 const getAspectRatioValue = () => {
   switch (aspectRatio.value) {
     case '1:1': return 1;
-    case '4:3': return 4/3;
-    case '16:9': return 16/9;
+    case '4:3': return 4 / 3;
+    case '16:9': return 16 / 9;
     default: return NaN; // 自由比例
   }
 };
@@ -182,7 +192,7 @@ const flipCropperVertical = () => {
 
 const cropImage = () => {
   if (!cropper.value) return;
-  
+
   const canvas = cropper.value.getCroppedCanvas({
     maxWidth: 4096,
     maxHeight: 4096,
@@ -190,7 +200,7 @@ const cropImage = () => {
     imageSmoothingEnabled: true,
     imageSmoothingQuality: 'high',
   });
-  
+
   if (canvas) {
     croppedImageUrl.value = canvas.toDataURL(originalFile.value.type || 'image/jpeg');
   }
@@ -198,7 +208,7 @@ const cropImage = () => {
 
 const downloadCroppedImage = () => {
   if (!croppedImageUrl.value) return;
-  
+
   const link = document.createElement('a');
   link.download = `cropped-${originalFile.value.name || 'image'}`;
   link.href = croppedImageUrl.value;
@@ -232,6 +242,10 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+.card-header h2 {
+  color: #409eff;
+}
+
 .crop-container {
   padding: 20px;
   max-width: 1200px;
@@ -267,13 +281,31 @@ onUnmounted(() => {
 
 .crop-area {
   width: 100%;
-  max-height: 500px;
+  height: 50vh;
+  /* 占据 70% 视口高度 */
+  max-height: 800px;
+  /* 最大高度限制，避免超大 */
+  min-height: 400px;
+  /* 保证最小可用高度 */
   overflow: hidden;
+  margin: 0 auto;
 }
 
 .cropper-container {
+  width: 100%;
   height: 100%;
-  max-height: 500px;
+}
+
+.cropper-container img {
+  max-width: 100%;
+}
+
+@media (max-width: 768px) {
+  .crop-area {
+    height: 50vh;
+    /* 小屏幕缩小一点 */
+    min-height: 300px;
+  }
 }
 
 .crop-controls {
@@ -336,14 +368,14 @@ onUnmounted(() => {
   .crop-container {
     padding: 10px;
   }
-  
+
   .aspect-ratio-controls,
   .rotation-controls,
   .flip-controls {
     flex-direction: column;
     align-items: flex-start;
   }
-  
+
   .control-label {
     margin-bottom: 5px;
   }

@@ -1,6 +1,6 @@
 <template>
   <div class="convert-container">
-    <el-card class="convert-card">
+    <el-card shadow="never">
       <template #header>
         <div class="card-header">
           <h2>图片格式转换</h2>
@@ -201,6 +201,9 @@ const convertAnother = () => {
 </script>
 
 <style scoped>
+.card-header h2 {
+  color: #409eff;
+}
 .convert-container {
   padding: 20px;
   max-width: 1200px;

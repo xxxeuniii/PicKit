@@ -1,29 +1,26 @@
 <template>
   <el-container class="app-container">
     <el-header>
-      <h1>图片工具箱</h1>
-      <p>简单高效的图片处理工具</p>
+      <div style="display: flex;justify-content: flex-start;align-items:baseline;">
+
+        <h1>图片工具箱</h1>
+        <p>简单高效的图片处理工具</p>
+      </div>
     </el-header>
-    
+
     <el-main>
-      <el-menu
-        :default-active="activeIndex"
-        class="el-menu-demo"
-        mode="horizontal"
-        router
-        @select="handleSelect"
-      >
+      <el-menu v-if="route.path !== '/'" :default-active="activeIndex" class="el-menu-demo" mode="horizontal" router @select="handleSelect">
         <el-menu-item index="/compress">图片压缩</el-menu-item>
         <el-menu-item index="/crop">图片裁剪</el-menu-item>
         <el-menu-item index="/convert">格式转换</el-menu-item>
         <el-menu-item index="/rename">批量重命名</el-menu-item>
       </el-menu>
-      
+
       <div class="content-container">
         <router-view />
       </div>
     </el-main>
-    
+
     <el-footer>
       <p>© {{ new Date().getFullYear() }} 图片工具箱 - 简单高效的图片处理工具</p>
     </el-footer>
@@ -50,7 +47,7 @@ const handleSelect = (key) => {
 // 组件挂载时，如果是根路径，重定向到压缩页面
 onMounted(() => {
   if (route.path === '/') {
-    router.push('/compress')
+    // router.push('/compress')
   }
 })
 </script>
@@ -80,14 +77,15 @@ body {
 .el-header {
   background-color: #409eff;
   color: white;
+  /* color: red; */
   text-align: center;
-  padding: 20px;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  /* padding: 20px; */
+  /* box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1); */
 }
 
 .el-header h1 {
   font-size: 28px;
-  margin-bottom: 5px;
+  /* margin-bottom: 5px; */
 }
 
 .el-header p {
@@ -107,8 +105,6 @@ body {
 /* 内容容器 */
 .content-container {
   background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
   padding: 20px;
   margin-top: 20px;
 }
@@ -128,8 +124,8 @@ body {
     display: flex;
     flex-wrap: wrap;
   }
-  
-  .el-menu--horizontal > .el-menu-item {
+
+  .el-menu--horizontal>.el-menu-item {
     flex: 1;
     min-width: 120px;
     text-align: center;

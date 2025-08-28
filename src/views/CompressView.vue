@@ -1,62 +1,71 @@
 <template>
   <div class="compress-view">
-    <h2>图片压缩</h2>
-    
-    <div class="tool-container">
-      <div class="upload-area">
-        <el-upload
-          class="upload-component"
-          drag
-          action="#"
-          :auto-upload="false"
-          :on-change="handleFileChange"
-          :show-file-list="false">
-          <el-icon class="el-icon--upload"><Upload /></el-icon>
-          <div class="el-upload__text">拖拽图片到此处，或 <em>点击上传</em></div>
-        </el-upload>
-      </div>
-      
-      <div v-if="imageData.original" class="image-preview-container">
-        <div class="image-preview">
-          <h3>原始图片</h3>
-          <img :src="imageData.original.url" alt="原始图片" class="preview-img">
-          <div class="image-info">
-            <p>尺寸: {{ imageData.original.width }} x {{ imageData.original.height }} px</p>
-            <p>大小: {{ formatFileSize(imageData.original.size) }}</p>
-          </div>
+    <el-card shadow="never">
+      <template #header>
+        <div class="card-header">
+          <h2>图片压缩</h2>
         </div>
-        
-        <div class="compression-controls">
-          <h3>压缩设置</h3>
-          <el-form label-position="top">
-            <el-form-item label="质量">
-              <el-slider v-model="compressQuality" :min="10" :max="100" :step="5" show-stops></el-slider>
-              <div class="slider-labels">
-                <span>低质量</span>
-                <span>高质量</span>
+      </template>
+
+      <div class="tool-container">
+        <div class="upload-area">
+          <el-upload class="upload-component" drag action="#" :auto-upload="false" :on-change="handleFileChange"
+            :show-file-list="false">
+            <el-icon class="el-icon--upload">
+              <Upload />
+            </el-icon>
+            <div class="el-upload__text">拖拽图片到此处，或 <em>点击上传</em></div>
+            <template #tip>
+              <div class="el-upload__tip">
+                支持JPG、PNG、GIF、WEBP等常见图片格式
               </div>
-            </el-form-item>
-            <el-form-item label="最大宽度">
-              <el-input-number v-model="compressMaxWidth" :min="100" :step="100"></el-input-number>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" @click="compressImage">压缩图片</el-button>
-            </el-form-item>
-          </el-form>
+            </template>
+          </el-upload>
         </div>
-        
-        <div v-if="imageData.compressed" class="image-preview">
-          <h3>压缩后</h3>
-          <img :src="imageData.compressed.url" alt="压缩后图片" class="preview-img">
-          <div class="image-info">
-            <p>尺寸: {{ imageData.compressed.width }} x {{ imageData.compressed.height }} px</p>
-            <p>大小: {{ formatFileSize(imageData.compressed.size) }}</p>
-            <p>压缩率: {{ calculateCompressionRate() }}%</p>
+
+        <div v-if="imageData.original" class="image-preview-container">
+          <div class="image-preview">
+            <h3>原始图片</h3>
+            <img :src="imageData.original.url" alt="原始图片" class="preview-img">
+            <div class="image-info">
+              <p>尺寸: {{ imageData.original.width }} x {{ imageData.original.height }} px</p>
+              <p>大小: {{ formatFileSize(imageData.original.size) }}</p>
+            </div>
           </div>
-          <el-button type="success" @click="downloadImage">下载图片</el-button>
+
+          <div class="compression-controls">
+            <h3>压缩设置</h3>
+            <el-form label-position="top">
+              <el-form-item label="质量">
+                <el-slider v-model="compressQuality" :min="10" :max="100" :step="5" show-stops></el-slider>
+                <div class="slider-labels">
+                  <span>低质量</span>
+                  <span>高质量</span>
+                </div>
+              </el-form-item>
+              <el-form-item label="最大宽度">
+                <el-input-number v-model="compressMaxWidth" :min="100" :step="100"></el-input-number>
+              </el-form-item>
+              <el-form-item>
+                <el-button type="primary" @click="compressImage">压缩图片</el-button>
+              </el-form-item>
+            </el-form>
+          </div>
+
+          <div v-if="imageData.compressed" class="image-preview">
+            <h3>压缩后</h3>
+            <img :src="imageData.compressed.url" alt="压缩后图片" class="preview-img">
+            <div class="image-info">
+              <p>尺寸: {{ imageData.compressed.width }} x {{ imageData.compressed.height }} px</p>
+              <p>大小: {{ formatFileSize(imageData.compressed.size) }}</p>
+              <p>压缩率: {{ calculateCompressionRate() }}%</p>
+            </div>
+            <el-button type="success" @click="downloadImage">下载图片</el-button>
+          </div>
         </div>
       </div>
-    </div>
+    </el-card>
+
   </div>
 </template>
 
@@ -79,7 +88,7 @@ const compressMaxWidth = ref(1200)
 // 处理文件上传
 const handleFileChange = (file) => {
   if (!file || !file.raw) return
-  
+
   const reader = new FileReader()
   reader.onload = (e) => {
     const img = new Image()
@@ -106,39 +115,39 @@ const compressImage = async () => {
     ElMessage.warning('请先上传图片')
     return
   }
-  
+
   try {
     const img = new Image()
     img.src = imageData.value.original.url
-    
+
     await new Promise((resolve) => {
       img.onload = resolve
     })
-    
+
     // 计算新尺寸
     let newWidth = img.width
     let newHeight = img.height
-    
+
     if (newWidth > compressMaxWidth.value) {
       const ratio = compressMaxWidth.value / newWidth
       newWidth = compressMaxWidth.value
       newHeight = Math.round(newHeight * ratio)
     }
-    
+
     // 创建Canvas
     const canvas = document.createElement('canvas')
     canvas.width = newWidth
     canvas.height = newHeight
-    
+
     // 使用pica进行高质量缩放
     const picaInstance = new pica()
     await picaInstance.resize(img, canvas)
-    
+
     // 转换为Blob
     const blob = await new Promise((resolve) => {
       canvas.toBlob(resolve, 'image/jpeg', compressQuality.value / 100)
     })
-    
+
     // 更新压缩后的图片信息
     imageData.value.compressed = {
       url: URL.createObjectURL(blob),
@@ -146,7 +155,7 @@ const compressImage = async () => {
       height: newHeight,
       size: blob.size
     }
-    
+
     ElMessage.success('图片压缩成功')
   } catch (error) {
     console.error('压缩图片时出错:', error)
@@ -157,7 +166,7 @@ const compressImage = async () => {
 // 下载压缩后的图片
 const downloadImage = () => {
   if (!imageData.value.compressed) return
-  
+
   const link = document.createElement('a')
   link.href = imageData.value.compressed.url
   link.download = '压缩_' + imageData.value.original.file.name
@@ -183,9 +192,19 @@ const calculateCompressionRate = () => {
 </script>
 
 <style scoped>
-.compress-view h2 {
-  margin-bottom: 20px;
+.compress-view {
+  padding: 20px;
+
+}
+
+.card-header h2 {
   color: #409eff;
+}
+
+.card-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .tool-container {
@@ -259,7 +278,7 @@ const calculateCompressionRate = () => {
   .image-preview-container {
     flex-direction: column;
   }
-  
+
   .image-preview,
   .compression-controls {
     min-width: 100%;
