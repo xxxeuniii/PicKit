@@ -9,16 +9,14 @@ export default defineConfig({
     vue(),
     sitemapPlugin({
       hostname: 'https://pic-kit.vercel.app',
-      dynamicRoutes: [
-        '/',
-        '/compress',
-        '/crop',
-        '/convert',
-        '/rename'
-      ],
-      lastmod: new Date().toISOString(),
-      changefreq: 'weekly'
+      dynamicRoutes: ['/', '/compress', '/crop', '/convert', '/rename'],
+      lastmod: '2025-08-28',    // 用固定字符串
+      changefreq: 'weekly',
+      xmlNs: {
+        sitemap: 'http://www.sitemaps.org/schemas/sitemap/0.9' // 保留标准 xmlns
+      }
     })
+
   ],
   resolve: {
     alias: {
