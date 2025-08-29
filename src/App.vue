@@ -1,13 +1,11 @@
 <template>
   <el-container class="app-container">
     <el-header>
-      <div
-        style="
+      <div style="
           display: flex;
           justify-content: space-between;
           align-items: center;
-        "
-      >
+        ">
         <div style="display: flex; align-items: baseline">
           <h1>{{ $t("home.title") }}</h1>
           <div style="width:10px">
@@ -15,11 +13,7 @@
           <p>{{ $t("home.subtitle") }}</p>
         </div>
 
-        <el-select
-          v-model="locale"
-          @change="changeLanguage"
-          style="width: 120px"
-        >
+        <el-select v-model="locale" @change="changeLanguage" style="width: 120px">
           <el-option label="中文" value="zh"></el-option>
           <el-option label="English" value="en"></el-option>
           <el-option label="日本語" value="ja"></el-option>
@@ -28,14 +22,7 @@
     </el-header>
 
     <el-main>
-      <el-menu
-        v-if="route.path !== '/'"
-        :default-active="activeIndex"
-        class="el-menu-demo"
-        mode="horizontal"
-        router
-        @select="handleSelect"
-      >
+      <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" router @select="handleSelect">
         <el-menu-item index="/compress">{{ $t("menu.compress") }}</el-menu-item>
         <el-menu-item index="/crop">{{ $t("menu.crop") }}</el-menu-item>
         <el-menu-item index="/convert">{{ $t("menu.convert") }}</el-menu-item>
@@ -157,7 +144,7 @@ body {
     flex-wrap: wrap;
   }
 
-  .el-menu--horizontal > .el-menu-item {
+  .el-menu--horizontal>.el-menu-item {
     flex: 1;
     min-width: 120px;
     text-align: center;

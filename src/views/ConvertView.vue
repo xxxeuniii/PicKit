@@ -102,9 +102,9 @@ import { ref, computed } from 'vue';
 import { UploadFilled, RefreshRight, Delete, Download, Plus } from '@element-plus/icons-vue';
 import { ElMessage } from 'element-plus';
 
-const { appContext } = getCurrentInstance()
-const t = appContext.config.globalProperties.$t
+import { useI18n } from "vue-i18n";
 
+const { t } = useI18n();
 const imageUrl = ref('');
 const convertedImageUrl = ref('');
 const targetFormat = ref('image/jpeg');

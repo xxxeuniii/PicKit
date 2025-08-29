@@ -116,8 +116,10 @@ import { ref, onMounted, onUnmounted } from 'vue';
 import Cropper from 'cropperjs';
 import 'cropperjs/dist/cropper.css';
 
-const { appContext } = getCurrentInstance()
-const t = appContext.config.globalProperties.$t
+
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 const imageUrl = ref('');
 const cropperImage = ref(null);
 const croppedImageUrl = ref('');
