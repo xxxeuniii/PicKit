@@ -3,7 +3,8 @@ export default {
     compress: '图片压缩',
     crop: '图片裁剪',
     convert: '格式转换',
-    rename: '批量重命名'
+    rename: '批量重命名',
+    pdf: '图片转PDF'
   },
   home: {
     welcome: '欢迎使用图片工具箱',
@@ -25,6 +26,10 @@ export default {
       rename: {
         title: '批量重命名',
         description: '上传多张图片，批量重命名并下载'
+      },
+      pdf: {
+        title: '图片转PDF',
+        description: '将多张图片拼接合并生成PDF文档'
       }
     }
   },
@@ -124,6 +129,30 @@ export default {
     emptySuffix: '请输入后缀文本',
     emptyFindText: '请输入查找文本',
     emptyBaseName: '请输入基本名称',
+  },
+  pdf: {
+    title: '图片转PDF',
+    description: '将多张图片拼接合并生成PDF文档',
+    upload: {
+      text: '拖拽图片到此处，或点击上传',
+      tip: '支持JPG、PNG、GIF等格式，可批量上传多张图片'
+    },
+    settings: {
+      title: 'PDF设置',
+      pageSize: '页面大小',
+      orientation: '页面方向',
+      portrait: '竖向',
+      landscape: '横向',
+      imagesPerPage: '每页图片数',
+      margin: '页边距',
+      quality: '图片质量'
+    },
+    generate: '生成PDF',
+    preview: '图片预览',
+    clear: '清除所有'
+  },
+  common: {
+    clear: '清除'
   },
   footer: {
     copyright: '© {year} 图片工具箱 - 简单高效的图片处理工具'

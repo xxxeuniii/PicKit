@@ -3,7 +3,8 @@ export default {
     compress: '画像圧縮',
     crop: '画像トリミング',
     convert: 'フォーマット変換',
-    rename: '一括リネーム'
+    rename: '一括リネーム',
+    pdf: '画像をPDFに'
   },
   home: {
     welcome: '画像ツールボックスへようこそ',
@@ -25,6 +26,10 @@ export default {
       rename: {
         title: '一括リネーム',
         description: '複数の画像をアップロードし、一括でリネームしてダウンロード'
+      },
+      pdf: {
+        title: '画像をPDFに',
+        description: '複数の画像を結合してPDF文書を作成'
       }
     }
   },
@@ -124,6 +129,30 @@ export default {
     emptySuffix: 'サフィックステキストを入力してください',
     emptyFindText: '検索テキストを入力してください',
     emptyBaseName: '基本名を入力してください'
+  },
+  pdf: {
+    title: '画像をPDFに',
+    description: '複数の画像を結合してPDF文書を作成',
+    upload: {
+      text: '画像をここにドラッグ、またはクリックしてアップロード',
+      tip: 'JPG、PNG、GIFなどの形式に対応、複数の画像を一括アップロード可能'
+    },
+    settings: {
+      title: 'PDF設定',
+      pageSize: 'ページサイズ',
+      orientation: 'ページの向き',
+      portrait: '縦向き',
+      landscape: '横向き',
+      imagesPerPage: 'ページあたりの画像数',
+      margin: 'ページ余白',
+      quality: '画像品質'
+    },
+    generate: 'PDF生成',
+    preview: '画像プレビュー',
+    clear: 'すべてクリア'
+  },
+  common: {
+    clear: 'クリア'
   },
   footer: {
     copyright: '© {year} 画像ツールボックス - シンプルで効率的な画像処理ツール'

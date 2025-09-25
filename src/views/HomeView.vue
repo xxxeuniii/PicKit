@@ -60,6 +60,19 @@
               </div>
             </el-card>
           </el-col>
+          <el-col :span="12" :xs="24" :sm="12" :md="12" :lg="12">
+            <el-card shadow="hover" @click="$router.push('/pdf')">
+              <template #header>
+                <div class="feature-header">
+                  <el-icon><Document /></el-icon>
+                  <h3>{{ $t('home.features.pdf.title') }}</h3>
+                </div>
+              </template>
+              <div class="feature-description">
+                {{ $t('home.features.pdf.description') }}
+              </div>
+            </el-card>
+          </el-col>
         </el-row>
       </div>
     </el-card>
@@ -67,7 +80,7 @@
 </template>
 
 <script setup>
-import { Picture, Crop, RefreshRight, Edit } from '@element-plus/icons-vue';
+import { Picture, Crop, RefreshRight, Edit, Document } from '@element-plus/icons-vue';
 </script>
 
 <style scoped>

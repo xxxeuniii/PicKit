@@ -3,7 +3,8 @@ export default {
     compress: 'Image Compression',
     crop: 'Image Cropping',
     convert: 'Format Conversion',
-    rename: 'Batch Rename'
+    rename: 'Batch Rename',
+    pdf: 'Images to PDF'
   },
   home: {
     welcome: 'Welcome to Image Toolbox',
@@ -25,6 +26,10 @@ export default {
       rename: {
         title: 'Batch Rename',
         description: 'Upload multiple images, rename them in batch and download'
+      },
+      pdf: {
+        title: 'Images to PDF',
+        description: 'Combine multiple images into a single PDF document'
       }
     }
   },
@@ -124,6 +129,30 @@ export default {
     emptySuffix: 'Please enter suffix text',
     emptyFindText: 'Please enter find text',
     emptyBaseName: 'Please enter base name',
+  },
+  pdf: {
+    title: 'Images to PDF',
+    description: 'Combine multiple images into a single PDF document',
+    upload: {
+      text: 'Drag images here, or click to upload',
+      tip: 'Supports JPG, PNG, GIF and other formats, batch upload multiple images'
+    },
+    settings: {
+      title: 'PDF Settings',
+      pageSize: 'Page Size',
+      orientation: 'Page Orientation',
+      portrait: 'Portrait',
+      landscape: 'Landscape',
+      imagesPerPage: 'Images per Page',
+      margin: 'Page Margin',
+      quality: 'Image Quality'
+    },
+    generate: 'Generate PDF',
+    preview: 'Image Preview',
+    clear: 'Clear All'
+  },
+  common: {
+    clear: 'Clear'
   },
   footer: {
     copyright: '© {year} Image Toolbox - Simple and efficient image processing tool'

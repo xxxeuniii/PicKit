@@ -27,6 +27,7 @@
         <el-menu-item index="/crop">{{ $t("menu.crop") }}</el-menu-item>
         <el-menu-item index="/convert">{{ $t("menu.convert") }}</el-menu-item>
         <el-menu-item index="/rename">{{ $t("menu.rename") }}</el-menu-item>
+        <el-menu-item index="/pdf">{{ $t("menu.pdf") }}</el-menu-item>
       </el-menu>
 
       <div class="content-container">
