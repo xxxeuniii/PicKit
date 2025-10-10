@@ -132,24 +132,25 @@ export default {
   },
   pdf: {
     title: 'Images to PDF',
-    description: 'Combine multiple images into a single PDF document',
+    description: 'Merge multiple images into a single PDF file with customizable layout and settings',
     upload: {
       text: 'Drag images here, or click to upload',
-      tip: 'Supports JPG, PNG, GIF and other formats, batch upload multiple images'
+      tip: 'Supports jpg/png formats, multiple images can be selected'
     },
     settings: {
       title: 'PDF Settings',
       pageSize: 'Page Size',
-      orientation: 'Page Orientation',
+      orientation: 'Orientation',
       portrait: 'Portrait',
       landscape: 'Landscape',
       imagesPerPage: 'Images per Page',
-      margin: 'Page Margin',
+      margin: 'Margin',
       quality: 'Image Quality'
     },
     generate: 'Generate PDF',
-    preview: 'Image Preview',
-    clear: 'Clear All'
+    preview: 'Live Preview',
+    previewDescription: 'Preview PDF page layout, drag to reorder images',
+    page: 'Page'
   },
   common: {
     clear: 'Clear'

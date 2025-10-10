@@ -132,23 +132,25 @@ export default {
   },
   pdf: {
     title: '图片转PDF',
-    description: '将多张图片拼接合并生成PDF文档',
+    description: '将多张图片合并成一个PDF文件，支持自定义布局和设置',
     upload: {
-      text: '拖拽图片到此处，或点击上传',
-      tip: '支持JPG、PNG、GIF等格式，可批量上传多张图片'
+      text: '将图片拖到此处，或点击上传',
+      tip: '支持jpg/png格式，可同时选择多张图片'
     },
     settings: {
       title: 'PDF设置',
       pageSize: '页面大小',
       orientation: '页面方向',
-      portrait: '竖向',
+      portrait: '纵向',
       landscape: '横向',
       imagesPerPage: '每页图片数',
       margin: '页边距',
       quality: '图片质量'
     },
     generate: '生成PDF',
-    preview: '图片预览',
+    preview: '实时预览',
+    previewDescription: '预览PDF页面布局效果，可拖拽调整图片顺序',
+    page: '第',
     clear: '清除所有'
   },
   common: {

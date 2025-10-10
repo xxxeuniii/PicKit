@@ -132,24 +132,25 @@ export default {
   },
   pdf: {
     title: '画像をPDFに',
-    description: '複数の画像を結合してPDF文書を作成',
+    description: '複数の画像を1つのPDFファイルに結合し、カスタマイズ可能なレイアウトと設定',
     upload: {
-      text: '画像をここにドラッグ、またはクリックしてアップロード',
-      tip: 'JPG、PNG、GIFなどの形式に対応、複数の画像を一括アップロード可能'
+      text: '画像をここにドラッグするか、クリックしてアップロード',
+      tip: 'jpg/png形式をサポート、複数の画像を選択可能'
     },
     settings: {
       title: 'PDF設定',
       pageSize: 'ページサイズ',
-      orientation: 'ページの向き',
+      orientation: '向き',
       portrait: '縦向き',
       landscape: '横向き',
       imagesPerPage: 'ページあたりの画像数',
-      margin: 'ページ余白',
+      margin: '余白',
       quality: '画像品質'
     },
     generate: 'PDF生成',
-    preview: '画像プレビュー',
-    clear: 'すべてクリア'
+    preview: 'リアルタイムプレビュー',
+    previewDescription: 'PDFページレイアウトをプレビュー、ドラッグして画像順序を調整',
+    page: 'ページ'
   },
   common: {
     clear: 'クリア'
