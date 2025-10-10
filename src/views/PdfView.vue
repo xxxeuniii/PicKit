@@ -548,12 +548,6 @@ const addImageToPDF = (pdf, imageUrl, x, y, maxWidth, maxHeight, quality) => {
   })
 }
 
-const clearFiles = () => {
-  fileList.value = []
-  previewImages.value = []
-  uploadRef.value?.clearFiles()
-}
-}
 </script>
 
 <style scoped>
