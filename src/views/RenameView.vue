@@ -363,8 +363,22 @@ const resetOptions = () => {
     padding: 10px;
   }
 
+  .upload-box {
+    max-width: 100%;
+  }
+
+  .rename-workspace {
+    margin-top: 12px;
+  }
+
+  .rename-options h3,
+  .file-list h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+
   .el-form-item {
-    margin-bottom: 18px;
+    margin-bottom: 14px;
   }
 }
 </style>

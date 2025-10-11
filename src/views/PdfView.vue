@@ -2,7 +2,7 @@
   <div class="pdf-container">
     <el-row :gutter="20">
       <!-- 左侧设置面板 -->
-      <el-col :span="12">
+      <el-col :span="12" :xs="24" :sm="24" :md="12">
         <el-card shadow="never">
           <template #header>
             <div class="card-header">
@@ -158,7 +158,7 @@
       </el-col>
 
       <!-- 右侧实时预览面板 -->
-      <el-col :span="12">
+      <el-col :span="12" :xs="24" :sm="24" :md="12">
         <el-card shadow="never" v-if="previewImages.length > 0">
           <template #header>
             <div class="card-header">
@@ -870,5 +870,32 @@ const scrollToUpload = () => {
 :deep(.el-upload-list__item) {
   width: auto;
   height: 150px;
+}
+
+/* 追加移动端适配样式 */
+@media (max-width: 768px) {
+  .pdf-container {
+    padding: 10px;
+  }
+  .fixed-width-upload {
+    max-width: 100%;
+  }
+  .uploaded-images-grid {
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 100%;
+  }
+  .action-section {
+    margin-top: 12px;
+  }
+  .el-card__header {
+    padding: 12px 12px 0 12px;
+  }
+  .el-card__body {
+    padding: 12px;
+  }
+  .pdf-preview-container {
+    max-height: 55vh;
+    padding: 8px;
+  }
 }
 </style>

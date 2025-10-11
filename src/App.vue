@@ -140,15 +140,73 @@ body {
 
 /* 响应式调整 */
 @media (max-width: 768px) {
+  .el-header h1 {
+    font-size: 22px;
+  }
+  .el-header p {
+    font-size: 14px;
+  }
+  .el-main {
+    padding: 12px;
+    max-width: 100%;
+  }
+  .content-container {
+    padding: 12px;
+    margin-top: 12px;
+  }
   .el-menu--horizontal {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    overflow-x: auto;
   }
-
   .el-menu--horizontal>.el-menu-item {
-    flex: 1;
-    min-width: 120px;
-    text-align: center;
+    flex: 0 0 auto;
+    padding: 0 12px;
+    min-width: unset;
   }
+}
+</style>
+
+<style>
+/* 美化下拉框通用样式（应用于带有 pretty-select 类的 Element Plus 选择器） */
+.pretty-select :deep(.el-input__wrapper) {
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 4px 12px rgba(64, 158, 255, 0.15);
+  transition: all 0.2s ease;
+}
+
+.pretty-select :deep(.el-input__wrapper:hover) {
+  box-shadow: 0 6px 18px rgba(64, 158, 255, 0.25);
+}
+
+.pretty-select :deep(.is-focus .el-input__wrapper),
+.pretty-select :deep(.el-input__wrapper.is-focus) {
+  border-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.35);
+  background: #ffffff;
+}
+
+.pretty-select :deep(.el-input__prefix),
+.pretty-select :deep(.el-select__caret) {
+  color: #409eff;
+}
+
+/* 下拉弹层样式（通过 popper-class 控制） */
+.pretty-select-popper {
+  border-radius: 12px !important;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
+}
+
+.pretty-select-popper .el-select-dropdown__item {
+  padding: 10px 12px;
+}
+
+.pretty-select-popper .el-select-dropdown__item.hover,
+.pretty-select-popper .el-select-dropdown__item:hover {
+  background: #ecf5ff;
+  color: #409eff;
 }
 </style>
