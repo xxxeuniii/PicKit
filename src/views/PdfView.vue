@@ -226,6 +226,18 @@
             </div>
           </div>
         </el-card>
+        <!-- 预览空状态 -->
+        <el-card shadow="never" v-else>
+          <template #header>
+            <div class="card-header">
+              <h3>{{ $t('pdf.preview') }}</h3>
+              <p>{{ $t('pdf.previewDescription') }}</p>
+            </div>
+          </template>
+          <el-empty description="暂无预览内容，请先在左侧上传图片">
+            <el-button type="primary" @click="scrollToUpload">去上传</el-button>
+          </el-empty>
+        </el-card>
       </el-col>
     </el-row>
   </div>
@@ -548,6 +560,10 @@ const addImageToPDF = (pdf, imageUrl, x, y, maxWidth, maxHeight, quality) => {
   })
 }
 
+const scrollToUpload = () => {
+  const el = document.querySelector('.upload-section')
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
 </script>
 
 <style scoped>

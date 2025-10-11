@@ -120,9 +120,9 @@ import { ref, reactive } from 'vue';
 import { UploadFilled, Delete, Download } from '@element-plus/icons-vue';
 import { ElMessage } from 'element-plus';
 import JSZip from 'jszip';
+import { useI18n } from 'vue-i18n';
 
-const { appContext } = getCurrentInstance()
-const t = appContext.config.globalProperties.$t
+const { t } = useI18n();
 const fileList = ref([]);
 const renamedFiles = ref([]);
 
@@ -138,7 +138,7 @@ const renameOptions = reactive({
   digitCount: 3
 });
 
-const handleFileChange = (file, fileList) => {
+const handleFileChange = (file, fileListParam) => {
   // 只处理图片文件
   if (!file.raw.type.startsWith('image/')) {
     ElMessage.warning(t('rename.noFiles'));
@@ -146,11 +146,11 @@ const handleFileChange = (file, fileList) => {
   }
 
   // 更新文件列表
-  updateFileList(fileList);
+  updateFileList(fileListParam);
 };
 
-const handleFileRemove = (file, fileList) => {
-  updateFileList(fileList);
+const handleFileRemove = (file, fileListParam) => {
+  updateFileList(fileListParam);
 };
 
 const updateFileList = (uploadFileList) => {
