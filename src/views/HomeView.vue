@@ -126,21 +126,9 @@ import { Picture, Crop, RefreshRight, Edit, Document } from '@element-plus/icons
   transform: translateY(-5px);
 }
 
-@media (max-width: 1024px) {
-  .home-container {
-    padding: 16px;
-  }
-}
-
 @media (max-width: 768px) {
   .home-container {
     padding: 10px;
-  }
-  .feature-header h3 {
-    font-size: 16px;
-  }
-  .feature-description {
-    font-size: 13px;
   }
 }
 </style>

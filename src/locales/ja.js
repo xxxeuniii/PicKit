@@ -4,6 +4,7 @@ export default {
     crop: '画像トリミング',
     convert: 'フォーマット変換',
     rename: '一括リネーム',
+    batchCrop: '一括トリミング',
     pdf: '画像をPDFに'
   },
   home: {
@@ -154,6 +155,24 @@ export default {
   },
   common: {
     clear: 'クリア'
+  },
+  batchCrop: {
+    title: '画像一括トリミング',
+    uploadText: '画像をここにドラッグ、または',
+    clickUpload: 'クリックしてアップロード',
+    supportedFormats: 'JPG、PNG、GIF、WEBP形式に対応、複数ファイル可',
+    cropBoxSize: 'トリミング枠のサイズ',
+    width: '幅',
+    height: '高さ',
+    lockResize: '枠サイズを固定',
+    prev: '前へ',
+    next: '次へ',
+    cropCurrent: '現在の画像をトリミング',
+    cropAll: 'すべてトリミング',
+    result: 'トリミング結果プレビュー',
+    downloadAll: 'トリミング済み画像をZIPでダウンロード',
+    noFiles: 'まず画像をアップロードしてください',
+    successMessage: '{count}枚の画像をトリミングしました'
   },
   footer: {
     copyright: '© {year} 画像ツールボックス - シンプルで効率的な画像処理ツール'

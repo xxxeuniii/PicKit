@@ -4,7 +4,8 @@ export default {
     crop: '图片裁剪',
     convert: '格式转换',
     rename: '批量重命名',
-    pdf: '图片转PDF'
+    pdf: '图片转PDF',
+    batchCrop: '批量裁剪'
   },
   home: {
     welcome: '欢迎使用图片工具箱',
@@ -155,6 +156,24 @@ export default {
   },
   common: {
     clear: '清除'
+  },
+  batchCrop: {
+    title: '图片批量裁剪',
+    uploadText: '拖拽图片到此处，或',
+    clickUpload: '点击上传',
+    supportedFormats: '支持JPG、PNG、GIF、WEBP等图片格式，支持多文件',
+    cropBoxSize: '裁剪框尺寸',
+    width: '宽度',
+    height: '高度',
+    lockResize: '锁定裁剪框尺寸',
+    prev: '上一张',
+    next: '下一张',
+    cropCurrent: '裁剪当前',
+    cropAll: '裁剪全部',
+    result: '裁剪结果预览',
+    downloadAll: '打包下载所有裁剪后的图片',
+    noFiles: '请先上传图片',
+    successMessage: '已裁剪 {count} 张图片'
   },
   footer: {
     copyright: '© {year} 图片工具箱 - 简单高效的图片处理工具'

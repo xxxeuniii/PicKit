@@ -29,6 +29,11 @@ const router = createRouter({
       component: () => import('../views/RenameView.vue')
     },
     {
+      path: '/batch-crop',
+      name: 'batchCrop',
+      component: () => import('../views/BatchCropView.vue')
+    },
+    {
       path: '/pdf',
       name: 'pdf',
       component: () => import('../views/PdfView.vue')

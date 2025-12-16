@@ -4,6 +4,7 @@ export default {
     crop: 'Image Cropping',
     convert: 'Format Conversion',
     rename: 'Batch Rename',
+    batchCrop: 'Batch Cropping',
     pdf: 'Images to PDF'
   },
   home: {
@@ -154,6 +155,24 @@ export default {
   },
   common: {
     clear: 'Clear'
+  },
+  batchCrop: {
+    title: 'Batch Image Cropping',
+    uploadText: 'Drag and drop images here, or',
+    clickUpload: 'Click to upload',
+    supportedFormats: 'Supports JPG, PNG, GIF, WEBP formats; multiple files supported',
+    cropBoxSize: 'Crop Box Size',
+    width: 'Width',
+    height: 'Height',
+    lockResize: 'Lock crop box size',
+    prev: 'Previous',
+    next: 'Next',
+    cropCurrent: 'Crop Current',
+    cropAll: 'Crop All',
+    result: 'Cropped Results Preview',
+    downloadAll: 'Download all cropped images as ZIP',
+    noFiles: 'Please upload images first',
+    successMessage: 'Cropped {count} images'
   },
   footer: {
     copyright: '© {year} Image Toolbox - Simple and efficient image processing tool'
