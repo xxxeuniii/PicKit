@@ -547,7 +547,7 @@ function onSizeChanged() {
   margin-bottom: 4px;
 }
 .upload-area :deep(.el-upload-dragger) {
-  padding: 10px 0;
+  padding: 10px;
 }
 .settings-form .size-inline {
   display: flex;
