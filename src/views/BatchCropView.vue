@@ -13,7 +13,9 @@
             :on-change="onUploadChange"
             :before-upload="() => false"
           >
-            <el-icon class="el-icon--upload"><upload-filled /></el-icon>
+            <el-icon class="el-icon--upload">
+              <upload-filled></upload-filled>
+            </el-icon>
             <div
               class="el-upload__text"
               v-html="$t('batchCrop.uploadText')"
@@ -23,7 +25,7 @@
             </div>
           </el-upload>
 
-          <el-divider />
+          <el-divider></el-divider>
 
           <el-form
             label-width="120px"
@@ -32,37 +34,38 @@
           >
             <el-form-item :label="$t('batchCrop.cropBoxSize')">
               <div class="size-inline">
-                <el-input-number
-                  size="small"
-                  v-model="boxWidth"
-                  :min="50"
-                  :max="5000"
-                  :step="10"
-                />
-                <span class="x">×</span>
-                <el-input-number
-                  size="small"
-                  v-model="boxHeight"
-                  :min="50"
-                  :max="5000"
-                  :step="10"
-                />
+                <div class="size-row">
+                  <span class="size-label">{{ $t("batchCrop.width") }}：</span>
+                  <el-input-number
+                    size="small"
+                    v-model="boxWidth"
+                    :min="50"
+                    :max="5000"
+                    :step="10"
+                    :controls="true"
+                    @change="onSizeChanged"
+                  ></el-input-number>
+                </div>
+                <div class="size-row">
+                  <span class="size-label">{{ $t("batchCrop.height") }}：</span>
+                  <el-input-number
+                    size="small"
+                    v-model="boxHeight"
+                    :min="50"
+                    :max="5000"
+                    :step="10"
+                    :controls="true"
+                    @change="onSizeChanged"
+                  ></el-input-number>
+                </div>
               </div>
             </el-form-item>
             <el-form-item :label="$t('batchCrop.lockResize')">
-              <el-switch v-model="lockResize" />
+              <el-switch v-model="lockResize"></el-switch>
             </el-form-item>
           </el-form>
 
           <div class="actions">
-            <el-button
-              size="small"
-              type="primary"
-              :disabled="!hasImages"
-              @click="cropCurrent"
-              >{{ $t("batchCrop.cropCurrent") }}</el-button
-            >
-
             <el-button
               size="small"
               :disabled="cropped.length === 0"
@@ -75,6 +78,22 @@
               :disabled="!hasImages && cropped.length === 0"
               >{{ $t("common.clear") }}</el-button
             >
+            <div class="reset-with-tip">
+              <el-button
+                size="small"
+                :disabled="!hasImages"
+                @click="resetCropBox"
+                >{{ $t("batchCrop.resetCropBox") }}</el-button
+              >
+              <el-tooltip
+                placement="top"
+                :content="$t('batchCrop.resetCropBoxTip')"
+              >
+                <el-icon class="reset-tip-icon">
+                  <QuestionFilled />
+                </el-icon>
+              </el-tooltip>
+            </div>
           </div>
 
           <div v-if="!hasImages" class="empty-tip">
@@ -99,18 +118,32 @@
         </div>
       </el-col>
 
-      <div style="width: 16px"></div>
       <!-- Right: Workspace & Results -->
       <el-col :xs="24" :sm="24" :md="15" :lg="16">
         <div class="panel">
           <div class="workspace-toolbar">
-            <el-button :disabled="!hasImages" @click="prev">{{
+            <el-button size="small" :disabled="!hasImages" @click="prev">{{
               $t("batchCrop.prev")
             }}</el-button>
-            <el-button :disabled="!hasImages" @click="next">{{
+            <el-button size="small" :disabled="!hasImages" @click="next">{{
               $t("batchCrop.next")
             }}</el-button>
-            <span class="file-name" v-if="hasImages">{{ currentName }}</span>
+            <el-button
+              size="small"
+              type="primary"
+              :disabled="!hasImages"
+              @click="cropCurrent"
+              >{{ $t("batchCrop.cropCurrent") }}</el-button
+            >
+            <el-button
+              size="small"
+              :disabled="!hasImages"
+              @click="fitToContainer"
+              >{{ $t("batchCrop.fitView") }}</el-button
+            >
+            <span class="file-name" v-if="hasImages">
+              {{ $t("batchCrop.imageSizeLabel") }}：{{ currentSize }}
+            </span>
           </div>
           <div class="workspace">
             <img
@@ -145,24 +178,25 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted, onBeforeUnmount, nextTick } from "vue";
-import { UploadFilled } from "@element-plus/icons-vue";
+import { ref, watch, onBeforeUnmount, nextTick } from "vue";
+import { UploadFilled, QuestionFilled } from "@element-plus/icons-vue";
 import Cropper from "cropperjs";
 import "cropperjs/dist/cropper.css";
 import JSZip from "jszip";
 
-const images = ref([]); // { name, type, src }
-const cropped = ref([]); // { name, dataUrl }
+const images = ref([]);
+const cropped = ref([]);
 const currentIndex = ref(0);
 const workspaceImage = ref(null);
 const cropper = ref(null);
-
-const boxWidth = ref(600);
+const applyingSizeChange = ref(false);
 const boxHeight = ref(400);
+const boxWidth = ref(200);
 const lockResize = ref(true);
 
 const hasImages = ref(false);
 const currentName = ref("");
+const currentSize = ref("");
 
 function onUploadChange(file, fileList) {
   const rawList = fileList.map((f) => f.raw).filter(Boolean);
@@ -201,10 +235,10 @@ function readFileAsDataURL(file) {
     reader.readAsDataURL(file);
   });
 }
-
 function initCropper() {
   destroyCropper();
   if (!workspaceImage.value) return;
+
   cropper.value = new Cropper(workspaceImage.value, {
     viewMode: 1,
     autoCrop: true,
@@ -214,29 +248,60 @@ function initCropper() {
     cropBoxResizable: !lockResize.value,
     ready() {
       setCropBoxSize();
+      updateCurrentSize();
+    },
+    crop(event) {
+      if (applyingSizeChange.value) return;
+      const width = Math.round(event.detail.width);
+      const height = Math.round(event.detail.height);
+      if (width !== boxWidth.value || height !== boxHeight.value) {
+        boxWidth.value = width;
+        boxHeight.value = height;
+      }
     },
   });
 }
 
 function setCropBoxSize() {
   if (!cropper.value) return;
-  // Center crop box with given size
+
   const containerData = cropper.value.getContainerData();
   const imageData = cropper.value.getImageData();
-  const w = Math.min(boxWidth.value, imageData.naturalWidth);
-  const h = Math.min(boxHeight.value, imageData.naturalHeight);
-  const left = Math.round((containerData.width - w) / 2);
-  const top = Math.round((containerData.height - h) / 2);
-  cropper.value.setCropBoxData({ left, top, width: w, height: h });
+
+  // 将期望的自然像素尺寸转换为显示尺寸（容器坐标）
+  const scaleX = imageData.width / imageData.naturalWidth || 1;
+  const scaleY = imageData.height / imageData.naturalHeight || 1;
+
+  const desiredW = Math.min(boxWidth.value, imageData.naturalWidth);
+  const desiredH = Math.min(boxHeight.value, imageData.naturalHeight);
+
+  const displayW = Math.min(Math.round(desiredW * scaleX), containerData.width);
+  const displayH = Math.min(
+    Math.round(desiredH * scaleY),
+    containerData.height
+  );
+
+  const left = Math.max((containerData.width - displayW) / 2, 0);
+  const top = Math.max((containerData.height - displayH) / 2, 0);
+
+  cropper.value.setCropBoxData({
+    left,
+    top,
+    width: displayW,
+    height: displayH,
+  });
 }
 
-watch([boxWidth, boxHeight, lockResize], () => {
+function updateCurrentSize() {
   if (!cropper.value) return;
-  cropper.value.setCropBoxData({
-    width: boxWidth.value,
-    height: boxHeight.value,
-  });
-  cropper.value.setOptions({ cropBoxResizable: !lockResize.value });
+  const imageData = cropper.value.getImageData();
+  const w = Math.round(imageData.naturalWidth || imageData.width || 0);
+  const h = Math.round(imageData.naturalHeight || imageData.height || 0);
+  currentSize.value = w && h ? `${w} × ${h}` : "";
+}
+watch(lockResize, (val) => {
+  if (!cropper.value) return;
+  cropper.value.setOptions({ cropBoxResizable: !val });
 });
 
 function switchTo(i) {
@@ -260,14 +325,31 @@ function cropCurrent() {
   const mime = images.value[currentIndex.value].type?.includes("jpeg")
     ? "image/jpeg"
     : "image/png";
+
+  // 使用输入框宽高生成导出图片
   const canvas = cropper.value.getCroppedCanvas({
     width: boxWidth.value,
     height: boxHeight.value,
   });
+
   const dataUrl = canvas.toDataURL(mime, 0.92);
   const name = makeCroppedName(images.value[currentIndex.value].name, dataUrl);
   upsertCropped(currentIndex.value, { name, dataUrl });
 }
+
+// function cropCurrent() {
+//   if (!cropper.value) return;
+//   const mime = images.value[currentIndex.value].type?.includes("jpeg")
+//     ? "image/jpeg"
+//     : "image/png";
+//   const canvas = cropper.value.getCroppedCanvas({
+//     width: boxWidth.value,
+//     height: boxHeight.value,
+//   });
+//   const dataUrl = canvas.toDataURL(mime, 0.92);
+//   const name = makeCroppedName(images.value[currentIndex.value].name, dataUrl);
+//   upsertCropped(currentIndex.value, { name, dataUrl });
+// }
 
 async function cropAll() {
   if (!hasImages.value) return;
@@ -322,25 +404,58 @@ async function downloadAllZip() {
   URL.revokeObjectURL(url);
 }
 
+// 1. dataURL 转 Blob
 function dataURLtoBlob(dataUrl) {
   const arr = dataUrl.split(",");
   const mime = arr[0].match(/:(.*?);/)[1];
   const bstr = atob(arr[1]);
-  let n = bstr.length;
+  const n = bstr.length;
   const u8arr = new Uint8Array(n);
-  while (n--) {
-    u8arr[n] = bstr.charCodeAt(n);
+
+  for (let i = 0; i < n; i++) {
+    u8arr[i] = bstr.charCodeAt(i);
   }
+
   return new Blob([u8arr], { type: mime });
 }
 
-function clearAll() {
-  images.value = [];
-  cropped.value = [];
-  currentIndex.value = 0;
-  hasImages.value = false;
-  currentName.value = "";
-  destroyCropper();
+// 2. 同步输入框显示自然像素大小
+function syncBoxInput(imageData) {
+  if (!hasImages.value || !imageData) return;
+
+  const scaleX = imageData.naturalWidth / imageData.width;
+  const scaleY = imageData.naturalHeight / imageData.height;
+
+  boxWidth.value = Math.round(imageData.width * scaleX);
+  boxHeight.value = Math.round(imageData.height * scaleY);
+}
+
+function fitToContainer() {
+  if (!cropper.value) return;
+  const cd = cropper.value.getContainerData();
+  const id = cropper.value.getImageData();
+  const fitRatio = Math.min(
+    cd.width / id.naturalWidth,
+    cd.height / id.naturalHeight
+  );
+  cropper.value.zoomTo(fitRatio);
+  const id2 = cropper.value.getImageData();
+  const left = Math.round((cd.width - id2.width) / 2);
+  const top = Math.round((cd.height - id2.height) / 2);
+  cropper.value.setCanvasData({ left, top });
+  setCropBoxSize();
+}
+
+function resetCropBox() {
+  if (!cropper.value) return;
+  const imageData = cropper.value.getImageData();
+  applyingSizeChange.value = true;
+  boxWidth.value = Math.round(imageData.naturalWidth);
+  boxHeight.value = Math.round(imageData.naturalHeight);
+  setCropBoxSize();
+  nextTick(() => {
+    applyingSizeChange.value = false;
+  });
 }
 function destroyCropper() {
   if (cropper.value) {
@@ -350,6 +465,55 @@ function destroyCropper() {
 }
 
 onBeforeUnmount(destroyCropper);
+// function onSizeChanged() {
+//   // 同步更新裁剪框尺寸（按显示比例转换），并保证不超过图片的实际尺寸
+//   if (!cropper.value) return;
+//   const imageData = cropper.value.getImageData();
+//   boxWidth.value = Math.min(
+//     Math.max(50, boxWidth.value || 0),
+//     imageData.naturalWidth || 5000
+//   );
+//   boxHeight.value = Math.min(
+//     Math.max(50, boxHeight.value || 0),
+//     imageData.naturalHeight || 5000
+//   );
+//   setCropBoxSize();
+// }
+
+// function onSizeChanged() {
+//   if (!cropper.value) return;
+
+//   const w = Math.min(
+//     Math.max(50, boxWidth.value),
+//     cropper.value.getContainerData().width
+//   );
+//   const h = Math.min(
+//     Math.max(50, boxHeight.value),
+//     cropper.value.getContainerData().height
+//   );
+
+//   cropper.value.setCropBoxData({ width: w, height: h });
+// }
+function onSizeChanged() {
+  if (!cropper.value) return;
+
+  applyingSizeChange.value = true;
+  const imageData = cropper.value.getImageData();
+  const minSize = 50;
+  const maxWidth = imageData.naturalWidth || 5000;
+  const maxHeight = imageData.naturalHeight || 5000;
+  const w = Math.min(Math.max(minSize, boxWidth.value || 0), maxWidth);
+  const h = Math.min(Math.max(minSize, boxHeight.value || 0), maxHeight);
+
+  boxWidth.value = w;
+  boxHeight.value = h;
+
+  setCropBoxSize();
+  nextTick(() => {
+    applyingSizeChange.value = false;
+  });
+}
+
 </script>
 
 <style scoped>
@@ -373,11 +537,17 @@ onBeforeUnmount(destroyCropper);
 }
 .settings-form .size-inline {
   display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.settings-form .size-row {
+  display: flex;
   align-items: center;
   gap: 8px;
 }
-.settings-form .size-inline .x {
-  color: var(--el-text-color-secondary);
+.settings-form .size-label {
+  color: var(--el-text-color-regular);
+  min-width: 48px;
 }
 .actions {
   display: flex;
@@ -388,8 +558,22 @@ onBeforeUnmount(destroyCropper);
 }
 .actions .el-button {
 }
+.reset-with-tip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.reset-tip-icon {
+  cursor: pointer;
+  color: var(--el-text-color-secondary);
+}
 .settings-form :deep(.el-input-number) {
-  width: 148px;
+  width: 160px;
+}
+.settings-form :deep(.el-input-number__increase),
+.settings-form :deep(.el-input-number__decrease) {
+  pointer-events: auto;
+  z-index: 1;
 }
 .empty-tip {
   color: var(--el-text-color-secondary);

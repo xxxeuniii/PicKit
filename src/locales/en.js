@@ -171,6 +171,9 @@ export default {
     cropAll: 'Crop All',
     result: 'Cropped Results Preview',
     downloadAll: 'Download all cropped images as ZIP',
+    resetCropBox: 'Reset Crop Box',
+    resetCropBoxTip: 'Reset the crop box to the full size of current image',
+    imageSizeLabel: 'Size',
     noFiles: 'Please upload images first',
     successMessage: 'Cropped {count} images'
   },

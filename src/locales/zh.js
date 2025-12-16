@@ -172,8 +172,12 @@ export default {
     cropAll: '裁剪全部',
     result: '裁剪结果预览',
     downloadAll: '打包下载所有裁剪后的图片',
+    resetCropBox: '恢复裁剪框',
+    resetCropBoxTip: '将裁剪框恢复为当前图片的完整尺寸',
+    imageSizeLabel: '尺寸',
     noFiles: '请先上传图片',
-    successMessage: '已裁剪 {count} 张图片'
+    successMessage: '已裁剪 {count} 张图片',
+    fitView: '恢复画布'
   },
   footer: {
     copyright: '© {year} 图片工具箱 - 简单高效的图片处理工具'

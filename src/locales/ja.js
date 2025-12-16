@@ -171,6 +171,9 @@ export default {
     cropAll: 'すべてトリミング',
     result: 'トリミング結果プレビュー',
     downloadAll: 'トリミング済み画像をZIPでダウンロード',
+    resetCropBox: 'トリミング枠をリセット',
+    resetCropBoxTip: '現在の画像全体を覆うトリミング枠に戻します',
+    imageSizeLabel: 'サイズ',
     noFiles: 'まず画像をアップロードしてください',
     successMessage: '{count}枚の画像をトリミングしました'
   },
