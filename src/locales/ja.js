@@ -165,6 +165,8 @@ export default {
     width: '幅',
     height: '高さ',
     lockResize: '枠サイズを固定',
+    lockResizeTip:
+      'オンにするとマウスでトリミング枠のサイズ変更が無効になり、左側の入力欄から幅と高さを変更します',
     prev: '前へ',
     next: '次へ',
     cropCurrent: '現在の画像をトリミング',

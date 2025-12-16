@@ -166,6 +166,7 @@ export default {
     width: '宽度',
     height: '高度',
     lockResize: '锁定裁剪框尺寸',
+    lockResizeTip: '开启后会禁用用鼠标拉伸裁剪框，只能通过左侧输入框修改宽高',
     prev: '上一张',
     next: '下一张',
     cropCurrent: '裁剪当前',

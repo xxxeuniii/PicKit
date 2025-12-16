@@ -165,6 +165,8 @@ export default {
     width: 'Width',
     height: 'Height',
     lockResize: 'Lock crop box size',
+    lockResizeTip:
+      'When enabled, resizing the crop box with the mouse is disabled; use the size inputs on the left instead',
     prev: 'Previous',
     next: 'Next',
     cropCurrent: 'Crop Current',

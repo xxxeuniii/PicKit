@@ -60,7 +60,20 @@
                 </div>
               </div>
             </el-form-item>
-            <el-form-item :label="$t('batchCrop.lockResize')">
+            <el-form-item>
+              <template #label>
+                <div class="reset-with-tip">
+                  <span>{{ $t("batchCrop.lockResize") }}</span>
+                  <el-tooltip
+                    placement="top"
+                    :content="$t('batchCrop.lockResizeTip')"
+                  >
+                    <el-icon class="reset-tip-icon">
+                      <QuestionFilled />
+                    </el-icon>
+                  </el-tooltip>
+                </div>
+              </template>
               <el-switch v-model="lockResize"></el-switch>
             </el-form-item>
           </el-form>
@@ -145,7 +158,7 @@
               {{ $t("batchCrop.imageSizeLabel") }}：{{ currentSize }}
             </span>
           </div>
-          <div class="workspace">
+          <div class="workspace" :class="{ 'lock-resize-on': lockResize }">
             <img
               v-if="hasImages"
               ref="workspaceImage"
@@ -161,14 +174,21 @@
           <div v-if="cropped.length === 0" class="empty-tip">—</div>
           <div v-else class="grid">
             <div v-for="(img, idx) in cropped" :key="idx" class="grid-item">
-              <img :src="img.dataUrl" :alt="img.name" />
-              <div class="name" :title="img.name">{{ img.name }}</div>
-              <el-button
-                class="download-btn"
-                size="small"
-                @click="downloadSingle(img)"
-                >下载</el-button
-              >
+              <el-image
+                :src="img.dataUrl"
+                :preview-src-list="croppedPreviewList"
+                :initial-index="idx"
+                fit="cover"
+              />
+              <div class="grid-item-footer">
+                <div class="name" :title="img.name">{{ img.name }}</div>
+                <el-button
+                  class="download-btn"
+                  size="small"
+                  @click="downloadSingle(img)"
+                  >下载</el-button
+                >
+              </div>
             </div>
           </div>
         </div>
@@ -178,7 +198,7 @@
 </template>
 
 <script setup>
-import { ref, watch, onBeforeUnmount, nextTick } from "vue";
+import { ref, watch, onBeforeUnmount, nextTick, computed } from "vue";
 import { UploadFilled, QuestionFilled } from "@element-plus/icons-vue";
 import Cropper from "cropperjs";
 import "cropperjs/dist/cropper.css";
@@ -190,13 +210,16 @@ const currentIndex = ref(0);
 const workspaceImage = ref(null);
 const cropper = ref(null);
 const applyingSizeChange = ref(false);
-const boxHeight = ref(400);
-const boxWidth = ref(200);
-const lockResize = ref(true);
+const boxHeight = ref(1000);
+const boxWidth = ref(750);
+const lockResize = ref(false);
 
 const hasImages = ref(false);
 const currentName = ref("");
 const currentSize = ref("");
+const croppedPreviewList = computed(() =>
+  cropped.value.map((item) => item.dataUrl)
+);
 
 function onUploadChange(file, fileList) {
   const rawList = fileList.map((f) => f.raw).filter(Boolean);
@@ -245,19 +268,10 @@ function initCropper() {
     dragMode: "move",
     background: false,
     zoomOnWheel: true,
-    cropBoxResizable: !lockResize.value,
+    cropBoxResizable: true,
     ready() {
       setCropBoxSize();
       updateCurrentSize();
-    },
-    crop(event) {
-      if (applyingSizeChange.value) return;
-      const width = Math.round(event.detail.width);
-      const height = Math.round(event.detail.height);
-      if (width !== boxWidth.value || height !== boxHeight.value) {
-        boxWidth.value = width;
-        boxHeight.value = height;
-      }
     },
   });
 }
@@ -299,10 +313,6 @@ function updateCurrentSize() {
   const h = Math.round(imageData.naturalHeight || imageData.height || 0);
   currentSize.value = w && h ? `${w} × ${h}` : "";
 }
-watch(lockResize, (val) => {
-  if (!cropper.value) return;
-  cropper.value.setOptions({ cropBoxResizable: !val });
-});
 
 function switchTo(i) {
   if (!hasImages.value) return;
@@ -534,6 +544,10 @@ function onSizeChanged() {
 }
 .upload-area {
   width: 100%;
+  margin-bottom: 4px;
+}
+.upload-area :deep(.el-upload-dragger) {
+  padding: 10px 0;
 }
 .settings-form .size-inline {
   display: flex;
@@ -633,6 +647,10 @@ function onSizeChanged() {
   max-height: 70vh;
   display: block;
 }
+.workspace.lock-resize-on :deep(.cropper-line),
+.workspace.lock-resize-on :deep(.cropper-point) {
+  pointer-events: none;
+}
 .result-title {
   font-weight: 600;
   margin-bottom: 8px;
@@ -648,25 +666,27 @@ function onSizeChanged() {
   overflow: hidden;
   background: var(--el-color-white);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
-  position: relative;
 }
-.grid-item img {
+.grid-item .el-image {
   width: 100%;
   height: 160px;
-  object-fit: cover;
 }
 .grid-item .name {
   font-size: 12px;
-  padding: 6px 8px;
-  border-top: 1px solid var(--el-border-color);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.grid-item-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 8px;
+  border-top: 1px solid var(--el-border-color);
+}
 .grid-item .download-btn {
-  position: absolute;
-  right: 8px;
-  bottom: 8px;
+  flex-shrink: 0;
 }
 @media (max-width: 1024px) {
   .grid {
