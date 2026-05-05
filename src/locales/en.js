@@ -180,6 +180,7 @@ export default {
     successMessage: 'Cropped {count} images'
   },
   footer: {
-    copyright: '© {year} Image Toolbox - Simple and efficient image processing tool'
+    copyright: '© {year} Image Toolbox - Simple and efficient image processing tool',
+    security: 'Data Security: Pure frontend implementation. All processing done locally, images never uploaded to server'
   }
 }

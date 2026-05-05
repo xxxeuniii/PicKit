@@ -3,14 +3,7 @@
     <el-row :gutter="20">
       <!-- 左侧设置面板 -->
       <el-col :span="12" :xs="24" :sm="24" :md="12">
-        <el-card shadow="never">
-          <template #header>
-            <div class="card-header">
-              <h2>{{ $t('pdf.title') }}</h2>
-              <p>{{ $t('pdf.description') }}</p>
-            </div>
-          </template>
-
+        <div class="panel">
           <div class="upload-section">
             <el-upload
               ref="uploadRef"
@@ -28,11 +21,9 @@
               <div class="el-upload__text">
                 {{ $t('pdf.upload.text') }}
               </div>
-              <template #tip>
-                <div class="el-upload__tip">
-                  {{ $t('pdf.upload.tip') }}
-                </div>
-              </template>
+              <div class="upload-tip">
+                {{ $t('pdf.upload.tip') }}
+              </div>
             </el-upload>
           </div>
 
@@ -154,18 +145,16 @@
               {{ $t('common.clear') }}
             </el-button>
           </div>
-        </el-card>
+        </div>
       </el-col>
 
       <!-- 右侧实时预览面板 -->
       <el-col :span="12" :xs="24" :sm="24" :md="12">
-        <el-card shadow="never" v-if="previewImages.length > 0">
-          <template #header>
-            <div class="card-header">
-              <h3>{{ $t('pdf.preview') }}</h3>
-              <p>{{ $t('pdf.previewDescription') }}</p>
-            </div>
-          </template>
+        <div class="panel" v-if="previewImages.length > 0">
+          <div class="card-header">
+            <h3>{{ $t('pdf.preview') }}</h3>
+            <p>{{ $t('pdf.previewDescription') }}</p>
+          </div>
 
           <div class="pdf-preview-container">
             <div 
@@ -225,19 +214,17 @@
               </div>
             </div>
           </div>
-        </el-card>
+        </div>
         <!-- 预览空状态 -->
-        <el-card shadow="never" v-else>
-          <template #header>
-            <div class="card-header">
-              <h3>{{ $t('pdf.preview') }}</h3>
-              <p>{{ $t('pdf.previewDescription') }}</p>
-            </div>
-          </template>
+        <div class="panel" v-else>
+          <div class="card-header">
+            <h3>{{ $t('pdf.preview') }}</h3>
+            <p>{{ $t('pdf.previewDescription') }}</p>
+          </div>
           <el-empty description="暂无预览内容，请先在左侧上传图片">
             <el-button type="primary" @click="scrollToUpload">去上传</el-button>
           </el-empty>
-        </el-card>
+        </div>
       </el-col>
     </el-row>
   </div>
@@ -301,7 +288,6 @@ const getPageStyle = () => {
     border: '1px solid #dcdfe6',
     borderRadius: '4px',
     backgroundColor: '#fff',
-    boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
     marginBottom: '20px',
     position: 'relative'
   }
@@ -615,6 +601,12 @@ const scrollToUpload = () => {
   height: 120px;
 }
 
+.upload-tip {
+  margin-top: 10px;
+  font-size: 12px;
+  color: #909399;
+}
+
 /* 已上传图片网格样式 */
 .uploaded-images-section {
   margin-top: 20px;
@@ -700,7 +692,6 @@ const scrollToUpload = () => {
   margin: 0 auto 20px auto;
   position: relative;
   background: white;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   border-radius: 8px;
   overflow: hidden;
 }
@@ -842,17 +833,9 @@ const scrollToUpload = () => {
   margin-top: 10px;
 }
 
-/* 卡片样式 */
-.el-card {
+/* 面板样式 */
+.panel {
   border-radius: 8px;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-}
-
-.el-card__header {
-  padding: 20px 20px 0 20px;
-}
-
-.el-card__body {
   padding: 20px;
 }
 
@@ -887,10 +870,7 @@ const scrollToUpload = () => {
   .action-section {
     margin-top: 12px;
   }
-  .el-card__header {
-    padding: 12px 12px 0 12px;
-  }
-  .el-card__body {
+  .panel {
     padding: 12px;
   }
   .pdf-preview-container {

@@ -181,6 +181,7 @@ export default {
     fitView: '恢复画布'
   },
   footer: {
-    copyright: '© {year} 图片工具箱 - 简单高效的图片处理工具'
+    copyright: '© {year} 图片工具箱 - 简单高效的图片处理工具',
+    security: '数据安全：纯前端实现，所有处理均在本地完成，图片永不上传服务器'
   }
 }

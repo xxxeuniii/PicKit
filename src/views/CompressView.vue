@@ -1,10 +1,6 @@
 <template>
   <!-- 图片压缩 -->
   <div class="compress-view">
-    <div class="card-header">
-      <h2>{{ $t('menu.compress') }}</h2>
-    </div>
-
     <div class="tool-container">
       <div class="upload-area">
         <el-upload class="upload-component" drag action="#" :auto-upload="false" :on-change="handleFileChange"

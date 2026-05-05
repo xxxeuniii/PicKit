@@ -38,6 +38,7 @@
 
     <el-footer>
       <p>{{ $t("footer.copyright", { year: new Date().getFullYear() }) }}</p>
+      <p class="security-tip">{{ $t("footer.security") }}</p>
     </el-footer>
   </el-container>
 </template>
@@ -137,6 +138,12 @@ body {
   text-align: center;
   padding: 15px;
   font-size: 14px;
+}
+
+.el-footer .security-tip {
+  font-size: 12px;
+  color: #909399;
+  margin-top: 5px;
 }
 
 /* 响应式调整 */

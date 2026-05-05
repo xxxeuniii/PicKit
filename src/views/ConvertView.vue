@@ -1,99 +1,89 @@
 <template>
   <!-- 图片处理 -->
   <div class="convert-container">
-    <el-card shadow="never">
-      <template #header>
-        <div class="card-header">
-          <h2>{{ $t('menu.convert') }}</h2>
+    <div class="upload-area" v-if="!imageUrl">
+      <el-upload class="upload-box" drag action="" :auto-upload="false" :show-file-list="false"
+        :on-change="handleFileChange" :multiple="false">
+        <el-icon class="el-icon--upload"><upload-filled /></el-icon>
+        <div class="el-upload__text">
+          {{ $t('convert.uploadText') }} <em>{{ $t('convert.clickUpload') }}</em>
         </div>
-      </template>
-
-      <div class="upload-area" v-if="!imageUrl">
-        <el-upload class="upload-box" drag action="" :auto-upload="false" :show-file-list="false"
-          :on-change="handleFileChange" :multiple="false">
-          <el-icon class="el-icon--upload"><upload-filled /></el-icon>
-          <div class="el-upload__text">
-            {{ $t('convert.uploadText') }} <em>{{ $t('convert.clickUpload') }}</em>
-          </div>
-          <template #tip>
-            <div class="el-upload__tip">
-              {{ $t('convert.supportedFormats') }}
-            </div>
-          </template>
-        </el-upload>
-      </div>
-
-      <div v-if="imageUrl" class="convert-workspace">
-        <div class="image-preview">
-          <h3>{{ $t('convert.originalImage') }}</h3>
-          <div class="preview-box">
-            <img :src="imageUrl" :alt="$t('convert.originalImage')" />
-          </div>
-          <div class="image-info">
-            <p><strong>{{ $t('convert.fileName') }}：</strong>{{ originalFileName }}</p>
-            <p><strong>{{ $t('convert.originalFormat') }}：</strong>{{ originalFormat }}</p>
-            <p><strong>{{ $t('convert.dimensions') }}：</strong>{{ imageWidth }} x {{ imageHeight }} {{
-              $t('convert.pixels') }}
-            </p>
-          </div>
+        <div class="upload-tip">
+          {{ $t('convert.supportedFormats') }}
         </div>
+      </el-upload>
+    </div>
 
-        <div class="convert-controls">
-          <div class="format-selection">
-            <span class="control-label">{{ $t('convert.targetFormat') }}：</span>
-            <el-radio-group v-model="targetFormat">
-              <el-radio-button label="image/jpeg">JPG</el-radio-button>
-              <el-radio-button label="image/png">PNG</el-radio-button>
-              <el-radio-button label="image/webp">WEBP</el-radio-button>
-              <el-radio-button label="image/gif" :disabled="!supportsGif">GIF</el-radio-button>
-            </el-radio-group>
-          </div>
-
-          <div class="quality-control" v-if="targetFormat === 'image/jpeg' || targetFormat === 'image/webp'">
-            <span class="control-label">{{ $t('convert.quality') }}：</span>
-            <div class="quality-slider">
-              <el-slider v-model="quality" :min="10" :max="100" :step="5" show-stops>
-                <template #default="{ value }">
-                  <div class="slider-value">{{ value }}%</div>
-                </template>
-              </el-slider>
-            </div>
-          </div>
-
-          <div class="action-buttons">
-            <el-button @click="resetImage" plain type="info">
-              <el-icon>
-                <Delete />
-              </el-icon> {{ $t('convert.clear') }}
-            </el-button>
-            <el-button @click="convertImage" type="primary">
-              <el-icon>
-                <RefreshRight />
-              </el-icon> {{ $t('convert.convertButton') }}
-            </el-button>
-          </div>
+    <div v-if="imageUrl" class="convert-workspace">
+      <div class="image-preview">
+        <h3>{{ $t('convert.originalImage') }}</h3>
+        <div class="preview-box">
+          <img :src="imageUrl" :alt="$t('convert.originalImage')" />
+        </div>
+        <div class="image-info">
+          <p><strong>{{ $t('convert.fileName') }}：</strong>{{ originalFileName }}</p>
+          <p><strong>{{ $t('convert.originalFormat') }}：</strong>{{ originalFormat }}</p>
+          <p><strong>{{ $t('convert.dimensions') }}：</strong>{{ imageWidth }} x {{ imageHeight }} {{
+            $t('convert.pixels') }}
+          </p>
         </div>
       </div>
 
-      <div v-if="convertedImageUrl" class="result-preview">
-        <h3>{{ $t('convert.result') }}</h3>
-        <div class="preview-image">
-          <img :src="convertedImageUrl" :alt="$t('convert.convertedImage')" />
+      <div class="convert-controls">
+        <div class="format-selection">
+          <span class="control-label">{{ $t('convert.targetFormat') }}：</span>
+          <el-radio-group v-model="targetFormat">
+            <el-radio-button label="image/jpeg">JPG</el-radio-button>
+            <el-radio-button label="image/png">PNG</el-radio-button>
+            <el-radio-button label="image/webp">WEBP</el-radio-button>
+            <el-radio-button label="image/gif" :disabled="!supportsGif">GIF</el-radio-button>
+          </el-radio-group>
         </div>
-        <div class="download-actions">
-          <el-button type="success" @click="downloadConvertedImage">
+
+        <div class="quality-control" v-if="targetFormat === 'image/jpeg' || targetFormat === 'image/webp'">
+          <span class="control-label">{{ $t('convert.quality') }}：</span>
+          <div class="quality-slider">
+            <el-slider v-model="quality" :min="10" :max="100" :step="5" show-stops>
+              <template #default="{ value }">
+                <div class="slider-value">{{ value }}%</div>
+              </template>
+            </el-slider>
+          </div>
+        </div>
+
+        <div class="action-buttons">
+          <el-button @click="resetImage" plain type="info">
             <el-icon>
-              <Download />
-            </el-icon> {{ $t('convert.downloadButton') }}
+              <Delete />
+            </el-icon> {{ $t('convert.clear') }}
           </el-button>
-          <el-button @click="convertAnother">
+          <el-button @click="convertImage" type="primary">
             <el-icon>
-              <Plus />
-            </el-icon> {{ $t('convert.convertAnother') }}
+              <RefreshRight />
+            </el-icon> {{ $t('convert.convertButton') }}
           </el-button>
         </div>
       </div>
-    </el-card>
+    </div>
+
+    <div v-if="convertedImageUrl" class="result-preview">
+      <h3>{{ $t('convert.result') }}</h3>
+      <div class="preview-image">
+        <img :src="convertedImageUrl" :alt="$t('convert.convertedImage')" />
+      </div>
+      <div class="download-actions">
+        <el-button type="success" @click="downloadConvertedImage">
+          <el-icon>
+            <Download />
+          </el-icon> {{ $t('convert.downloadButton') }}
+        </el-button>
+        <el-button @click="convertAnother">
+          <el-icon>
+            <Plus />
+          </el-icon> {{ $t('convert.convertAnother') }}
+        </el-button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -120,7 +110,6 @@ const originalFormat = computed(() => {
 });
 
 const supportsGif = computed(() => {
-  // GIF转换通常需要特殊处理，这里简化处理，仅当原图为GIF时才允许转为GIF
   return originalFormat.value === 'image/gif';
 });
 
@@ -134,7 +123,6 @@ const handleFileChange = (file) => {
   reader.onload = (e) => {
     imageUrl.value = e.target.result;
 
-    // 获取图片尺寸
     const img = new Image();
     img.onload = () => {
       imageWidth.value = img.width;
@@ -158,7 +146,6 @@ const convertImage = () => {
     ctx.drawImage(img, 0, 0);
 
     try {
-      // 根据目标格式和质量设置转换图片
       const options = {};
       if (targetFormat.value === 'image/jpeg' || targetFormat.value === 'image/webp') {
         options.quality = quality.value / 100;
@@ -218,14 +205,11 @@ const convertAnother = () => {
   margin: 0 auto;
 }
 
-.convert-card {
-  margin-bottom: 20px;
-}
-
 .card-header {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 20px;
 }
 
 .upload-area {
@@ -237,6 +221,12 @@ const convertAnother = () => {
 .upload-box {
   width: 100%;
   max-width: 500px;
+}
+
+.upload-tip {
+  margin-top: 10px;
+  font-size: 12px;
+  color: #909399;
 }
 
 .convert-workspace {
@@ -255,7 +245,6 @@ const convertAnother = () => {
   max-height: 400px;
   overflow: hidden;
   margin: 0 auto;
-  border: 1px solid #ebeef5;
   border-radius: 4px;
 }
 
@@ -318,7 +307,6 @@ const convertAnother = () => {
 .preview-image {
   max-width: 100%;
   margin: 15px auto;
-  border: 1px solid #ebeef5;
   border-radius: 4px;
   overflow: hidden;
 }

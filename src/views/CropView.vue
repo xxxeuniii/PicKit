@@ -1,10 +1,6 @@
 <template>
   <!-- 图片裁剪 -->
   <div class="crop-container">
-    <div class="card-header">
-      <h2>{{ $t('menu.crop') }}</h2>
-    </div>
-
     <div class="upload-area" v-if="!imageUrl">
       <el-upload class="upload-box" drag action="" :auto-upload="false" :show-file-list="false"
         :on-change="handleFileChange">

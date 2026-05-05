@@ -1,117 +1,107 @@
 <template>
   <!-- 批量重命名 -->
   <div class="rename-container">
-    <el-card shadow="never">
-      <template #header>
-        <div class="card-header">
-          <h2>{{ $t('rename.title') }}</h2>
+    <div class="upload-area">
+      <el-upload class="upload-box" drag action="" :auto-upload="false" :on-change="handleFileChange"
+        :on-remove="handleFileRemove" multiple>
+        <el-icon class="el-icon--upload"><upload-filled /></el-icon>
+        <div class="el-upload__text" v-html="$t('rename.uploadText')"></div>
+        <div class="upload-tip">
+          {{ $t('rename.uploadTip') }}
         </div>
-      </template>
+      </el-upload>
+    </div>
 
-      <div class="upload-area">
-        <el-upload class="upload-box" drag action="" :auto-upload="false" :on-change="handleFileChange"
-          :on-remove="handleFileRemove" multiple>
-          <el-icon class="el-icon--upload"><upload-filled /></el-icon>
-          <div class="el-upload__text" v-html="$t('rename.uploadText')"></div>
-          <template #tip>
-            <div class="el-upload__tip">
-              {{ $t('rename.uploadTip') }}
-            </div>
+    <div v-if="fileList.length > 0" class="rename-workspace">
+      <div class="rename-options">
+        <h3>{{ $t('rename.renameOptions') }}</h3>
+
+        <el-form :model="renameOptions" label-width="100px">
+          <el-form-item :label="$t('rename.modeLabel')">
+            <el-radio-group v-model="renameOptions.mode">
+              <el-radio-button label="prefix">{{ $t('rename.prefix') }}</el-radio-button>
+              <el-radio-button label="suffix">{{ $t('rename.suffix') }}</el-radio-button>
+              <el-radio-button label="replace">{{ $t('rename.replace') }}</el-radio-button>
+              <el-radio-button label="sequence">{{ $t('rename.sequence') }}</el-radio-button>
+            </el-radio-group>
+          </el-form-item>
+
+          <template v-if="renameOptions.mode === 'prefix'">
+            <el-form-item :label="$t('rename.prefixText')">
+              <el-input v-model="renameOptions.prefix" :placeholder="$t('rename.emptyPrefix')"></el-input>
+            </el-form-item>
           </template>
-        </el-upload>
-      </div>
 
-      <div v-if="fileList.length > 0" class="rename-workspace">
-        <div class="rename-options">
-          <h3>{{ $t('rename.renameOptions') }}</h3>
-
-          <el-form :model="renameOptions" label-width="100px">
-            <el-form-item :label="$t('rename.modeLabel')">
-              <el-radio-group v-model="renameOptions.mode">
-                <el-radio-button label="prefix">{{ $t('rename.prefix') }}</el-radio-button>
-                <el-radio-button label="suffix">{{ $t('rename.suffix') }}</el-radio-button>
-                <el-radio-button label="replace">{{ $t('rename.replace') }}</el-radio-button>
-                <el-radio-button label="sequence">{{ $t('rename.sequence') }}</el-radio-button>
+          <template v-if="renameOptions.mode === 'suffix'">
+            <el-form-item :label="$t('rename.suffixText')">
+              <el-input v-model="renameOptions.suffix" :placeholder="$t('rename.emptySuffix')"></el-input>
+            </el-form-item>
+            <el-form-item :label="$t('rename.suffixPosition')">
+              <el-radio-group v-model="renameOptions.suffixPosition">
+                <el-radio label="beforeExt">{{ $t('rename.beforeExt') }}</el-radio>
+                <el-radio label="afterExt">{{ $t('rename.afterExt') }}</el-radio>
               </el-radio-group>
             </el-form-item>
+          </template>
 
-            <template v-if="renameOptions.mode === 'prefix'">
-              <el-form-item :label="$t('rename.prefixText')">
-                <el-input v-model="renameOptions.prefix" :placeholder="$t('rename.emptyPrefix')"></el-input>
-              </el-form-item>
-            </template>
-
-            <template v-if="renameOptions.mode === 'suffix'">
-              <el-form-item :label="$t('rename.suffixText')">
-                <el-input v-model="renameOptions.suffix" :placeholder="$t('rename.emptySuffix')"></el-input>
-              </el-form-item>
-              <el-form-item :label="$t('rename.suffixPosition')">
-                <el-radio-group v-model="renameOptions.suffixPosition">
-                  <el-radio label="beforeExt">{{ $t('rename.beforeExt') }}</el-radio>
-                  <el-radio label="afterExt">{{ $t('rename.afterExt') }}</el-radio>
-                </el-radio-group>
-              </el-form-item>
-            </template>
-
-            <template v-if="renameOptions.mode === 'replace'">
-              <el-form-item :label="$t('rename.findText')">
-                <el-input v-model="renameOptions.findText" :placeholder="$t('rename.emptyFindText')"></el-input>
-              </el-form-item>
-              <el-form-item :label="$t('rename.replaceText')">
-                <el-input v-model="renameOptions.replaceText" :placeholder="$t('rename.replaceText')"></el-input>
-              </el-form-item>
-            </template>
-
-            <template v-if="renameOptions.mode === 'sequence'">
-              <el-form-item :label="$t('rename.baseName')">
-                <el-input v-model="renameOptions.baseName" :placeholder="$t('rename.emptyBaseName')"></el-input>
-              </el-form-item>
-              <el-form-item :label="$t('rename.startNumber')">
-                <el-input-number v-model="renameOptions.startNumber" :min="0" :step="1"></el-input-number>
-              </el-form-item>
-              <el-form-item :label="$t('rename.digitCount')">
-                <el-input-number v-model="renameOptions.digitCount" :min="1" :max="10" :step="1"></el-input-number>
-              </el-form-item>
-            </template>
-
-            <el-form-item>
-              <el-button type="primary" @click="applyRename">{{ $t('rename.applyButton') }}</el-button>
-              <el-button @click="resetOptions">{{ $t('rename.resetButton') }}</el-button>
+          <template v-if="renameOptions.mode === 'replace'">
+            <el-form-item :label="$t('rename.findText')">
+              <el-input v-model="renameOptions.findText" :placeholder="$t('rename.emptyFindText')"></el-input>
             </el-form-item>
-          </el-form>
-        </div>
+            <el-form-item :label="$t('rename.replaceText')">
+              <el-input v-model="renameOptions.replaceText" :placeholder="$t('rename.replaceText')"></el-input>
+            </el-form-item>
+          </template>
 
-        <div class="file-list">
-          <h3>{{ $t('rename.fileListTitle') }} ({{ fileList.length }})</h3>
-          <el-table :data="fileList" style="width: 100%">
-            <el-table-column :label="$t('rename.originalName')" prop="originalName" min-width="180"></el-table-column>
-            <el-table-column :label="$t('rename.previewName')" min-width="180">
-              <template #default="scope">
-                <span>{{ getPreviewName(scope.row) }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column :label="$t('rename.action')" width="120">
-              <template #default="scope">
-                <el-button type="danger" size="small" @click="removeFile(scope.$index)">
-                  <el-icon>
-                    <Delete />
-                  </el-icon>
-                </el-button>
-              </template>
-            </el-table-column>
-          </el-table>
-        </div>
+          <template v-if="renameOptions.mode === 'sequence'">
+            <el-form-item :label="$t('rename.baseName')">
+              <el-input v-model="renameOptions.baseName" :placeholder="$t('rename.emptyBaseName')"></el-input>
+            </el-form-item>
+            <el-form-item :label="$t('rename.startNumber')">
+              <el-input-number v-model="renameOptions.startNumber" :min="0" :step="1"></el-input-number>
+            </el-form-item>
+            <el-form-item :label="$t('rename.digitCount')">
+              <el-input-number v-model="renameOptions.digitCount" :min="1" :max="10" :step="1"></el-input-number>
+            </el-form-item>
+          </template>
 
-        <div class="download-section" v-if="renamedFiles.length > 0">
-          <el-divider>{{ $t('rename.title') }}</el-divider>
-          <el-button type="success" @click="downloadAllFiles">
-            <el-icon>
-              <Download />
-            </el-icon> {{ $t('rename.downloadAll') }}
-          </el-button>
-        </div>
+          <el-form-item>
+            <el-button type="primary" @click="applyRename">{{ $t('rename.applyButton') }}</el-button>
+            <el-button @click="resetOptions">{{ $t('rename.resetButton') }}</el-button>
+          </el-form-item>
+        </el-form>
       </div>
-    </el-card>
+
+      <div class="file-list">
+        <h3>{{ $t('rename.fileListTitle') }} ({{ fileList.length }})</h3>
+        <el-table :data="fileList" style="width: 100%">
+          <el-table-column :label="$t('rename.originalName')" prop="originalName" min-width="180"></el-table-column>
+          <el-table-column :label="$t('rename.previewName')" min-width="180">
+            <template #default="scope">
+              <span>{{ getPreviewName(scope.row) }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="$t('rename.action')" width="120">
+            <template #default="scope">
+              <el-button type="danger" size="small" @click="removeFile(scope.$index)">
+                <el-icon>
+                  <Delete />
+                </el-icon>
+              </el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+
+      <div class="download-section" v-if="renamedFiles.length > 0">
+        <el-divider>{{ $t('rename.title') }}</el-divider>
+        <el-button type="success" @click="downloadAllFiles">
+          <el-icon>
+            <Download />
+          </el-icon> {{ $t('rename.downloadAll') }}
+        </el-button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -320,14 +310,11 @@ const resetOptions = () => {
   margin: 0 auto;
 }
 
-.rename-card {
-  margin-bottom: 20px;
-}
-
 .card-header {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 20px;
 }
 
 .upload-area {
@@ -339,6 +326,12 @@ const resetOptions = () => {
 .upload-box {
   width: 100%;
   max-width: 500px;
+}
+
+.upload-tip {
+  margin-top: 10px;
+  font-size: 12px;
+  color: #909399;
 }
 
 .rename-workspace {
