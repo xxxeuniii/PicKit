@@ -1,71 +1,61 @@
 <template>
   <!-- 图片压缩 -->
   <div class="compress-view">
-    <el-card shadow="never">
-      <template #header>
-        <div class="card-header">
-          <h2>{{ $t('menu.compress') }}</h2>
+    <div class="card-header">
+      <h2>{{ $t('menu.compress') }}</h2>
+    </div>
+
+    <div class="tool-container">
+      <div class="upload-area">
+        <el-upload class="upload-component" drag action="#" :auto-upload="false" :on-change="handleFileChange"
+          :show-file-list="false">
+          <el-icon class="el-icon--upload">
+            <Upload />
+          </el-icon>
+          <div class="el-upload__text">{{ $t('compress.uploadText') }} <em>{{ $t('compress.clickUpload') }}</em></div>
+          <div class="upload-tip">{{ $t('compress.supportedFormats') }}</div>
+        </el-upload>
+      </div>
+
+      <div v-if="imageData.original" class="image-preview-container">
+        <div class="image-preview">
+          <h3>{{ $t('compress.originalImage') }}</h3>
+          <img :src="imageData.original.url" :alt="$t('compress.originalImage')" class="preview-img">
+          <div class="image-info">
+            <p>{{ $t('compress.dimensions') }}: {{ imageData.original.width }} x {{ imageData.original.height }} px</p>
+            <p>{{ $t('compress.size') }}: {{ formatFileSize(imageData.original.size) }}</p>
+          </div>
         </div>
-      </template>
 
-      <div class="tool-container">
-        <div class="upload-area">
-          <el-upload class="upload-component" drag action="#" :auto-upload="false" :on-change="handleFileChange"
-            :show-file-list="false">
-            <el-icon class="el-icon--upload">
-              <Upload />
-            </el-icon>
-            <div class="el-upload__text">{{ $t('compress.uploadText') }} <em>{{ $t('compress.clickUpload') }}</em></div>
-            <template #tip>
-              <div class="el-upload__tip">
-                {{ $t('compress.supportedFormats') }}
-              </div>
-            </template>
-          </el-upload>
+        <div class="compression-controls">
+          <h3>{{ $t('compress.compressionSettings') }}</h3>
+          <el-form label-position="top">
+            <el-form-item :label="$t('compress.quality')">
+              <el-slider v-model="compressQuality" :min="10" :max="100" :step="5" show-stops></el-slider>
+              <div class="quality-tip">质量越高，图片越清晰，文件越大</div>
+            </el-form-item>
+            <el-form-item :label="$t('compress.maxWidth')">
+              <el-input-number v-model="compressMaxWidth" :min="100" :step="100"></el-input-number>
+              <div class="width-tip">图片宽度超过设定值时会等比例缩小</div>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="compressImage">{{ $t('compress.compressButton') }}</el-button>
+            </el-form-item>
+          </el-form>
         </div>
 
-        <div v-if="imageData.original" class="image-preview-container">
-          <div class="image-preview">
-            <h3>{{ $t('compress.originalImage') }}</h3>
-            <img :src="imageData.original.url" :alt="$t('compress.originalImage')" class="preview-img">
-            <div class="image-info">
-              <p>{{ $t('compress.dimensions') }}: {{ imageData.original.width }} x {{ imageData.original.height }} px</p>
-              <p>{{ $t('compress.size') }}: {{ formatFileSize(imageData.original.size) }}</p>
-            </div>
+        <div v-if="imageData.compressed" class="image-preview">
+          <h3>{{ $t('compress.compressed') }}</h3>
+          <img :src="imageData.compressed.url" :alt="$t('compress.compressed')" class="preview-img">
+          <div class="image-info">
+            <p>{{ $t('compress.dimensions') }}: {{ imageData.compressed.width }} x {{ imageData.compressed.height }} px</p>
+            <p>{{ $t('compress.size') }}: {{ formatFileSize(imageData.compressed.size) }}</p>
+            <p>{{ $t('compress.compressionRate') }}: {{ calculateCompressionRate() }}%</p>
           </div>
-
-          <div class="compression-controls">
-            <h3>{{ $t('compress.compressionSettings') }}</h3>
-            <el-form label-position="top">
-              <el-form-item :label="$t('compress.quality')">
-                <el-slider v-model="compressQuality" :min="10" :max="100" :step="5" show-stops></el-slider>
-                <div class="slider-labels">
-                  <span>{{ $t('compress.lowQuality') }}</span>
-                  <span>{{ $t('compress.highQuality') }}</span>
-                </div>
-              </el-form-item>
-              <el-form-item :label="$t('compress.maxWidth')">
-                <el-input-number v-model="compressMaxWidth" :min="100" :step="100"></el-input-number>
-              </el-form-item>
-              <el-form-item>
-                <el-button type="primary" @click="compressImage">{{ $t('compress.compressButton') }}</el-button>
-              </el-form-item>
-            </el-form>
-          </div>
-
-          <div v-if="imageData.compressed" class="image-preview">
-            <h3>{{ $t('compress.compressed') }}</h3>
-            <img :src="imageData.compressed.url" :alt="$t('compress.compressed')" class="preview-img">
-            <div class="image-info">
-              <p>{{ $t('compress.dimensions') }}: {{ imageData.compressed.width }} x {{ imageData.compressed.height }} px</p>
-              <p>{{ $t('compress.size') }}: {{ formatFileSize(imageData.compressed.size) }}</p>
-              <p>{{ $t('compress.compressionRate') }}: {{ calculateCompressionRate() }}%</p>
-            </div>
-            <el-button type="success" @click="downloadImage">{{ $t('compress.downloadButton') }}</el-button>
-          </div>
+          <el-button type="success" @click="downloadImage">{{ $t('compress.downloadButton') }}</el-button>
         </div>
       </div>
-    </el-card>
+    </div>
   </div>
 </template>
 
@@ -106,6 +96,7 @@ const handleFileChange = (file) => {
         },
         compressed: null
       }
+      compressMaxWidth.value = img.width
     }
     img.src = e.target.result
   }
@@ -197,7 +188,6 @@ const calculateCompressionRate = () => {
 <style scoped>
 .compress-view {
   padding: 20px;
-
 }
 
 .card-header h2 {
@@ -208,13 +198,13 @@ const calculateCompressionRate = () => {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 20px;
 }
 
 .tool-container {
   margin-top: 20px;
 }
 
-/* 上传区域样式 */
 .upload-area {
   margin-bottom: 30px;
 }
@@ -223,7 +213,19 @@ const calculateCompressionRate = () => {
   width: 100%;
 }
 
-/* 图片预览容器样式 */
+.upload-tip {
+  margin-top: 10px;
+  font-size: 12px;
+  color: #909399;
+}
+
+.quality-tip,
+.width-tip {
+  font-size: 12px;
+  color: #909399;
+  margin-top: 8px;
+}
+
 .image-preview-container {
   display: flex;
   flex-wrap: wrap;
@@ -234,13 +236,10 @@ const calculateCompressionRate = () => {
 .image-preview {
   flex: 1;
   min-width: 300px;
-  background-color: white;
-  border-radius: 8px;
   padding: 15px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .preview-img {
@@ -248,7 +247,6 @@ const calculateCompressionRate = () => {
   max-height: 300px;
   object-fit: contain;
   margin: 10px 0;
-  border: 1px solid #ebeef5;
 }
 
 .image-info {
@@ -258,25 +256,12 @@ const calculateCompressionRate = () => {
   color: #606266;
 }
 
-/* 压缩控制区域样式 */
 .compression-controls {
   flex: 1;
   min-width: 300px;
-  background-color: white;
-  border-radius: 8px;
   padding: 15px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.slider-labels {
-  display: flex;
-  justify-content: space-between;
-  font-size: 12px;
-  color: #909399;
-  margin-top: -15px;
-}
-
-/* 响应式调整 */
 @media (max-width: 768px) {
   .image-preview-container {
     flex-direction: column;
