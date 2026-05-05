@@ -28,6 +28,10 @@ export default {
         title: '一括リネーム',
         description: '複数の画像をアップロードし、一括でリネームしてダウンロード'
       },
+      batchCrop: {
+        title: '一括トリミング',
+        description: '複数の画像を一括処理し、統一したサイズでトリミング'
+      },
       pdf: {
         title: '画像をPDFに',
         description: '複数の画像を結合してPDF文書を作成'

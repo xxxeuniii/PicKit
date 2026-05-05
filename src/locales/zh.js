@@ -28,6 +28,10 @@ export default {
         title: '批量重命名',
         description: '上传多张图片，批量重命名并下载'
       },
+      batchCrop: {
+        title: '批量裁剪',
+        description: '批量处理多张图片，统一裁剪尺寸'
+      },
       pdf: {
         title: '图片转PDF',
         description: '将多张图片拼接合并生成PDF文档'

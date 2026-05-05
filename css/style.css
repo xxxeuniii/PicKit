@@ -169,11 +169,12 @@ body {
 
 /* 页脚样式 */
 .el-footer {
-    background-color: #303133;
+    background-color: #ffffff;
     color: #909399;
     text-align: center;
     padding: 15px;
     font-size: 14px;
+    border-top: 1px solid #ebeef5;
 }
 
 /* 响应式调整 */

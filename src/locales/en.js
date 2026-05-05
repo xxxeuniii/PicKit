@@ -28,6 +28,10 @@ export default {
         title: 'Batch Rename',
         description: 'Upload multiple images, rename them in batch and download'
       },
+      batchCrop: {
+        title: 'Batch Crop',
+        description: 'Process multiple images in batch with unified crop size'
+      },
       pdf: {
         title: 'Images to PDF',
         description: 'Combine multiple images into a single PDF document'
