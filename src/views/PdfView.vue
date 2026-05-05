@@ -7,8 +7,9 @@
           <div class="upload-section">
             <el-upload
               ref="uploadRef"
-              class="upload-demo fixed-width-upload"
+              class="upload-component"
               drag
+              action="#"
               multiple
               :auto-upload="false"
               :on-change="handleFileChange"
@@ -17,13 +18,11 @@
               :show-file-list="false"
               :on-remove="handleRemove"
             >
-              <el-icon class="el-icon--upload"><upload-filled /></el-icon>
-              <div class="el-upload__text">
-                {{ $t('pdf.upload.text') }}
-              </div>
-              <div class="upload-tip">
-                {{ $t('pdf.upload.tip') }}
-              </div>
+              <el-icon class="el-icon--upload">
+                <Upload />
+              </el-icon>
+              <div class="el-upload__text">{{ $t('pdf.upload.text') }}</div>
+              <div class="upload-tip">{{ $t('pdf.upload.tip') }}</div>
             </el-upload>
           </div>
 
@@ -233,7 +232,7 @@
 <script setup>
 import { ref, reactive, computed, nextTick } from 'vue'
 import { ElMessage } from 'element-plus'
-import { UploadFilled, Document, ArrowUp, ArrowDown, Delete } from '@element-plus/icons-vue'
+import { Upload, Document, ArrowUp, ArrowDown, Delete } from '@element-plus/icons-vue'
 import { jsPDF } from 'jspdf'
 
 const uploadRef = ref()

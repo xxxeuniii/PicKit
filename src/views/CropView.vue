@@ -2,15 +2,13 @@
   <!-- 图片裁剪 -->
   <div class="crop-container">
     <div class="upload-area" v-if="!imageUrl">
-      <el-upload class="upload-box" drag action="" :auto-upload="false" :show-file-list="false"
+      <el-upload class="upload-component" drag action="#" :auto-upload="false" :show-file-list="false"
         :on-change="handleFileChange">
-        <el-icon class="el-icon--upload"><upload-filled /></el-icon>
-        <div class="el-upload__text">
-          {{ $t('crop.uploadText') }} <em>{{ $t('crop.clickUpload') }}</em>
-        </div>
-        <div class="upload-tip">
-          {{ $t('crop.supportedFormats') }}
-        </div>
+        <el-icon class="el-icon--upload">
+          <Upload />
+        </el-icon>
+        <div class="el-upload__text">{{ $t('crop.uploadText') }} <em>{{ $t('crop.clickUpload') }}</em></div>
+        <div class="upload-tip">{{ $t('crop.supportedFormats') }}</div>
       </el-upload>
     </div>
 
@@ -102,7 +100,7 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
- import { UploadFilled, Refresh, RefreshRight, RefreshLeft, DCaret, Crop, Download, Delete } from '@element-plus/icons-vue';
+ import { Upload, Refresh, RefreshRight, RefreshLeft, DCaret, Crop, Download, Delete } from '@element-plus/icons-vue';
 import Cropper from 'cropperjs';
 import 'cropperjs/dist/cropper.css';
 
@@ -259,7 +257,7 @@ onUnmounted(() => {
   margin: 20px 0;
 }
 
-.upload-box {
+.upload-component {
   width: 100%;
   max-width: 500px;
 }

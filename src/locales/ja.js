@@ -99,7 +99,8 @@ export default {
   },
   rename: {
     title: '一括リネーム',
-    uploadText: '画像をここにドラッグ、または <em>クリックしてアップロード</em>',
+    uploadText: '画像をここにドラッグ、または',
+    clickUpload: 'クリックしてアップロード',
     uploadTip: '複数の画像ファイルをアップロード可能',
     renameOptions: 'リネームオプション',
     modeLabel: '命名モード',

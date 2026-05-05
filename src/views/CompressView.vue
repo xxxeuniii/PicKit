@@ -202,11 +202,14 @@ const calculateCompressionRate = () => {
 }
 
 .upload-area {
-  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
 }
 
 .upload-component {
   width: 100%;
+  max-width: 500px;
 }
 
 .upload-tip {

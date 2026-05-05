@@ -99,7 +99,8 @@ export default {
   },
     rename: {
     title: 'Batch Rename',
-    uploadText: 'Drag and drop images here, or <em>click to upload</em>',
+    uploadText: 'Drag and drop images here, or',
+    clickUpload: 'click to upload',
     uploadTip: 'Supports uploading multiple image files',
     renameOptions: 'Rename Options',
     modeLabel: 'Naming Mode',

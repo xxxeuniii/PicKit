@@ -5,8 +5,9 @@
       <el-col :xs="24" :sm="24" :md="8" :lg="7">
         <div class="panel">
           <el-upload
-            class="upload-area"
+            class="upload-component"
             drag
+            action="#"
             multiple
             :auto-upload="false"
             :show-file-list="false"
@@ -14,15 +15,10 @@
             :before-upload="() => false"
           >
             <el-icon class="el-icon--upload">
-              <upload-filled></upload-filled>
+              <Upload />
             </el-icon>
-            <div
-              class="el-upload__text"
-              v-html="$t('batchCrop.uploadText')"
-            ></div>
-            <div class="el-upload__tip">
-              {{ $t("batchCrop.supportedFormats") }}
-            </div>
+            <div class="el-upload__text">{{ $t('batchCrop.uploadText') }}</div>
+            <div class="upload-tip">{{ $t("batchCrop.supportedFormats") }}</div>
           </el-upload>
 
           <el-divider></el-divider>
@@ -199,7 +195,7 @@
 
 <script setup>
 import { ref, watch, onBeforeUnmount, nextTick, computed } from "vue";
-import { UploadFilled, QuestionFilled } from "@element-plus/icons-vue";
+import { Upload, QuestionFilled } from "@element-plus/icons-vue";
 import Cropper from "cropperjs";
 import "cropperjs/dist/cropper.css";
 import JSZip from "jszip";
@@ -693,6 +689,12 @@ function onSizeChanged() {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+.upload-tip {
+  margin-top: 10px;
+  font-size: 12px;
+  color: #909399;
+}
+
 @media (max-width: 768px) {
   .batch-crop-container {
     padding: 8px;

@@ -2,15 +2,13 @@
   <!-- 图片处理 -->
   <div class="convert-container">
     <div class="upload-area" v-if="!imageUrl">
-      <el-upload class="upload-box" drag action="" :auto-upload="false" :show-file-list="false"
+      <el-upload class="upload-component" drag action="#" :auto-upload="false" :show-file-list="false"
         :on-change="handleFileChange" :multiple="false">
-        <el-icon class="el-icon--upload"><upload-filled /></el-icon>
-        <div class="el-upload__text">
-          {{ $t('convert.uploadText') }} <em>{{ $t('convert.clickUpload') }}</em>
-        </div>
-        <div class="upload-tip">
-          {{ $t('convert.supportedFormats') }}
-        </div>
+        <el-icon class="el-icon--upload">
+          <Upload />
+        </el-icon>
+        <div class="el-upload__text">{{ $t('convert.uploadText') }} <em>{{ $t('convert.clickUpload') }}</em></div>
+        <div class="upload-tip">{{ $t('convert.supportedFormats') }}</div>
       </el-upload>
     </div>
 
@@ -89,7 +87,7 @@
 
 <script setup>
 import { ref, computed } from 'vue';
-import { UploadFilled, RefreshRight, Delete, Download, Plus } from '@element-plus/icons-vue';
+import { Upload, RefreshRight, Delete, Download, Plus } from '@element-plus/icons-vue';
 import { ElMessage } from 'element-plus';
 
 import { useI18n } from "vue-i18n";
@@ -218,7 +216,7 @@ const convertAnother = () => {
   margin: 20px 0;
 }
 
-.upload-box {
+.upload-component {
   width: 100%;
   max-width: 500px;
 }

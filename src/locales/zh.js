@@ -99,7 +99,8 @@ export default {
   },
     rename: {
     title: '批量重命名',
-    uploadText: '拖拽图片到此处，或 <em>点击上传</em>',
+    uploadText: '拖拽图片到此处，或',
+    clickUpload: '点击上传',
     uploadTip: '支持批量上传多个图片文件',
     renameOptions: '重命名选项',
     modeLabel: '命名模式',

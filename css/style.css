@@ -61,11 +61,14 @@ body {
 
 /* 上传区域样式 */
 .upload-area {
-    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
 }
 
 .upload-component {
     width: 100%;
+    max-width: 500px;
 }
 
 /* 图片预览容器样式 */

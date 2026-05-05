@@ -2,13 +2,13 @@
   <!-- 批量重命名 -->
   <div class="rename-container">
     <div class="upload-area">
-      <el-upload class="upload-box" drag action="" :auto-upload="false" :on-change="handleFileChange"
+      <el-upload class="upload-component" drag action="#" :auto-upload="false" :on-change="handleFileChange"
         :on-remove="handleFileRemove" multiple>
-        <el-icon class="el-icon--upload"><upload-filled /></el-icon>
-        <div class="el-upload__text" v-html="$t('rename.uploadText')"></div>
-        <div class="upload-tip">
-          {{ $t('rename.uploadTip') }}
-        </div>
+        <el-icon class="el-icon--upload">
+          <Upload />
+        </el-icon>
+        <div class="el-upload__text">{{ $t('rename.uploadText') }} <em>{{ $t('rename.clickUpload') }}</em></div>
+        <div class="upload-tip">{{ $t('rename.uploadTip') }}</div>
       </el-upload>
     </div>
 
@@ -107,7 +107,7 @@
 
 <script setup>
 import { ref, reactive } from 'vue';
-import { UploadFilled, Delete, Download } from '@element-plus/icons-vue';
+import { Upload, Delete, Download } from '@element-plus/icons-vue';
 import { ElMessage } from 'element-plus';
 import JSZip from 'jszip';
 import { useI18n } from 'vue-i18n';
@@ -323,7 +323,7 @@ const resetOptions = () => {
   margin: 20px 0;
 }
 
-.upload-box {
+.upload-component {
   width: 100%;
   max-width: 500px;
 }
@@ -356,7 +356,7 @@ const resetOptions = () => {
     padding: 10px;
   }
 
-  .upload-box {
+  .upload-component {
     max-width: 100%;
   }
 
