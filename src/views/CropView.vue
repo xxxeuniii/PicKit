@@ -1,112 +1,106 @@
 <template>
   <!-- 图片裁剪 -->
   <div class="crop-container">
-    <el-card shadow="never">
-      <template #header>
-        <div class="card-header">
-          <h2>{{ $t('menu.crop') }}</h2>
+    <div class="card-header">
+      <h2>{{ $t('menu.crop') }}</h2>
+    </div>
+
+    <div class="upload-area" v-if="!imageUrl">
+      <el-upload class="upload-box" drag action="" :auto-upload="false" :show-file-list="false"
+        :on-change="handleFileChange">
+        <el-icon class="el-icon--upload"><upload-filled /></el-icon>
+        <div class="el-upload__text">
+          {{ $t('crop.uploadText') }} <em>{{ $t('crop.clickUpload') }}</em>
         </div>
-      </template>
-
-      <div class="upload-area" v-if="!imageUrl">
-        <el-upload class="upload-box" drag action="" :auto-upload="false" :show-file-list="false"
-          :on-change="handleFileChange">
-          <el-icon class="el-icon--upload"><upload-filled /></el-icon>
-          <div class="el-upload__text">
-            {{ $t('crop.uploadText') }} <em>{{ $t('crop.clickUpload') }}</em>
-          </div>
-          <template #tip>
-            <div class="el-upload__tip">
-              {{ $t('crop.supportedFormats') }}
-            </div>
-          </template>
-        </el-upload>
-      </div>
-
-      <div v-if="imageUrl" class="crop-workspace">
-        <div class="crop-area">
-          <div class="cropper-container">
-            <img ref="cropperImage" :src="imageUrl" style="display: none;" />
-          </div>
+        <div class="upload-tip">
+          {{ $t('crop.supportedFormats') }}
         </div>
+      </el-upload>
+    </div>
 
-        <div class="crop-controls">
-          <div class="aspect-ratio-controls">
-            <span class="control-label">{{ $t('crop.aspectRatio') }}：</span>
-            <el-radio-group v-model="aspectRatio" @change="updateCropperAspectRatio">
-              <el-radio-button label="free">{{ $t('crop.aspectRatios.free') }}</el-radio-button>
-              <el-radio-button label="1:1">1:1</el-radio-button>
-              <el-radio-button label="4:3">4:3</el-radio-button>
-              <el-radio-button label="16:9">16:9</el-radio-button>
-            </el-radio-group>
-          </div>
-
-          <div class="rotation-controls">
-            <span class="control-label">{{ $t('crop.rotation') }}：</span>
-            <el-button-group>
-              <el-button @click="rotateCropper(-90)" type="primary" plain>
-                <el-icon>
-                  <Refresh />
-                </el-icon> {{ $t('crop.rotateLeft') }}
-              </el-button>
-              <el-button @click="rotateCropper(90)" type="primary" plain>
-                <el-icon>
-                  <RefreshRight />
-                </el-icon> {{ $t('crop.rotateRight') }}
-              </el-button>
-            </el-button-group>
-          </div>
-
-          <div class="flip-controls">
-            <span class="control-label">{{ $t('crop.flip') }}：</span>
-            <el-button-group>
-              <el-button @click="flipCropperHorizontal" type="primary" plain>
-                <el-icon>
-                  <DCaret />
-                </el-icon> {{ $t('crop.flipHorizontal') }}
-              </el-button>
-              <el-button @click="flipCropperVertical" type="primary" plain>
-                <el-icon>
-                  <DCaret class="vertical-icon" />
-                </el-icon> {{ $t('crop.flipVertical') }}
-              </el-button>
-            </el-button-group>
-          </div>
-
-          <div class="action-buttons">
-            <el-button @click="resetImage" plain type="info">
-              <el-icon>
-                <RefreshLeft />
-              </el-icon> {{ $t('crop.reset') }}
-            </el-button>
-            <el-button @click="cropImage" type="success">
-              <el-icon>
-                <Crop />
-              </el-icon> {{ $t('crop.cropButton') }}
-            </el-button>
-          </div>
+    <div v-if="imageUrl" class="crop-workspace">
+      <div class="crop-area">
+        <div class="cropper-container">
+          <img ref="cropperImage" :src="imageUrl" style="display: none;" />
         </div>
       </div>
 
-      <div v-if="croppedImageUrl" class="result-preview">
-        <h3>{{ $t('crop.result') }}</h3>
-        <div class="preview-image">
-          <img :src="croppedImageUrl" :alt="$t('crop.croppedImage')" />
+      <div class="crop-controls">
+        <div class="aspect-ratio-controls">
+          <span class="control-label">{{ $t('crop.aspectRatio') }}：</span>
+          <el-radio-group v-model="aspectRatio" @change="updateCropperAspectRatio">
+            <el-radio-button label="free">{{ $t('crop.aspectRatios.free') }}</el-radio-button>
+            <el-radio-button label="1:1">1:1</el-radio-button>
+            <el-radio-button label="4:3">4:3</el-radio-button>
+            <el-radio-button label="16:9">16:9</el-radio-button>
+          </el-radio-group>
         </div>
-        <div class="download-actions">
-          <el-button type="primary" @click="downloadCroppedImage">
+
+        <div class="rotation-controls">
+          <span class="control-label">{{ $t('crop.rotation') }}：</span>
+          <el-button-group>
+            <el-button @click="rotateCropper(-90)" type="primary" plain>
+              <el-icon>
+                <Refresh />
+              </el-icon> {{ $t('crop.rotateLeft') }}
+            </el-button>
+            <el-button @click="rotateCropper(90)" type="primary" plain>
+              <el-icon>
+                <RefreshRight />
+              </el-icon> {{ $t('crop.rotateRight') }}
+            </el-button>
+          </el-button-group>
+        </div>
+
+        <div class="flip-controls">
+          <span class="control-label">{{ $t('crop.flip') }}：</span>
+          <el-button-group>
+            <el-button @click="flipCropperHorizontal" type="primary" plain>
+              <el-icon>
+                <DCaret />
+              </el-icon> {{ $t('crop.flipHorizontal') }}
+            </el-button>
+            <el-button @click="flipCropperVertical" type="primary" plain>
+              <el-icon>
+                <DCaret class="vertical-icon" />
+              </el-icon> {{ $t('crop.flipVertical') }}
+            </el-button>
+          </el-button-group>
+        </div>
+
+        <div class="action-buttons">
+          <el-button @click="resetImage" plain type="info">
             <el-icon>
-              <Download />
-            </el-icon> {{ $t('crop.downloadButton') }}
+              <RefreshLeft />
+            </el-icon> {{ $t('crop.reset') }}
           </el-button>
-          <el-button @click="resetAll">
+          <el-button @click="cropImage" type="success">
             <el-icon>
-              <Delete />
-            </el-icon> {{ $t('crop.clearAndRestart') }}
+              <Crop />
+            </el-icon> {{ $t('crop.cropButton') }}
           </el-button>
         </div>
       </div>
-    </el-card>
+    </div>
+
+    <div v-if="croppedImageUrl" class="result-preview">
+      <h3>{{ $t('crop.result') }}</h3>
+      <div class="preview-image">
+        <img :src="croppedImageUrl" :alt="$t('crop.croppedImage')" />
+      </div>
+      <div class="download-actions">
+        <el-button type="primary" @click="downloadCroppedImage">
+          <el-icon>
+            <Download />
+          </el-icon> {{ $t('crop.downloadButton') }}
+        </el-button>
+        <el-button @click="resetAll">
+          <el-icon>
+            <Delete />
+          </el-icon> {{ $t('crop.clearAndRestart') }}
+        </el-button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -134,7 +128,6 @@ const handleFileChange = (file) => {
   const reader = new FileReader();
   reader.onload = (e) => {
     imageUrl.value = e.target.result;
-    // 在下一个DOM更新周期初始化裁剪器
     setTimeout(() => {
       initCropper();
     }, 20);
@@ -167,7 +160,7 @@ const getAspectRatioValue = () => {
     case '1:1': return 1;
     case '4:3': return 4 / 3;
     case '16:9': return 16 / 9;
-    default: return NaN; // 自由比例
+    default: return NaN;
   }
 };
 
@@ -257,14 +250,11 @@ onUnmounted(() => {
   margin: 0 auto;
 }
 
-.crop-card {
-  margin-bottom: 20px;
-}
-
 .card-header {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 20px;
 }
 
 .upload-area {
@@ -276,6 +266,12 @@ onUnmounted(() => {
 .upload-box {
   width: 100%;
   max-width: 500px;
+}
+
+.upload-tip {
+  margin-top: 10px;
+  font-size: 12px;
+  color: #909399;
 }
 
 .crop-workspace {
@@ -300,13 +296,6 @@ onUnmounted(() => {
 
 .cropper-container img {
   max-width: 100%;
-}
-
-@media (max-width: 768px) {
-  .crop-area {
-    height: 50vh;
-    min-height: 300px;
-  }
 }
 
 .crop-controls {
@@ -344,7 +333,6 @@ onUnmounted(() => {
 .preview-image {
   max-width: 100%;
   margin: 15px auto;
-  border: 1px solid #ebeef5;
   border-radius: 4px;
   overflow: hidden;
 }
@@ -368,6 +356,11 @@ onUnmounted(() => {
 @media (max-width: 768px) {
   .crop-container {
     padding: 10px;
+  }
+
+  .crop-area {
+    height: 50vh;
+    min-height: 300px;
   }
 
   .aspect-ratio-controls,
