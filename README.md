@@ -8,7 +8,29 @@ https://pic-kit.vercel.app/
 
 ## 界面预览
 
-![PicKit 图片压缩演示](docs/demo.png)
+### 首页
+
+![PicKit 首页](docs/screenshots/home.png)
+
+### 图片压缩
+
+![图片压缩](docs/screenshots/compress.png)
+
+### 图片裁剪
+
+![图片裁剪](docs/screenshots/crop.png)
+
+### 格式转换
+
+![格式转换](docs/screenshots/convert.png)
+
+### 批量重命名
+
+![批量重命名](docs/screenshots/rename.png)
+
+### 批量裁剪
+
+![批量裁剪](docs/screenshots/batch-crop.png)
 
 ## 功能
 

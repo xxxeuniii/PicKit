@@ -1,19 +1,20 @@
 <template>
   <!-- 批量重命名 -->
   <div class="rename-container">
-    <div class="upload-area">
-      <el-upload class="upload-component" drag action="#" :auto-upload="false" :on-change="handleFileChange"
-        :on-remove="handleFileRemove" multiple>
-        <el-icon class="el-icon--upload">
-          <Upload />
-        </el-icon>
-        <div class="el-upload__text">{{ $t('rename.uploadText') }} <em>{{ $t('rename.clickUpload') }}</em></div>
-        <div class="upload-tip">{{ $t('rename.uploadTip') }}</div>
-      </el-upload>
-    </div>
+    <div class="rename-workspace" :class="{ 'has-files': fileList.length > 0 }">
+      <div class="rename-sidebar">
+        <div class="upload-area">
+          <el-upload class="upload-component" drag action="#" :auto-upload="false" :on-change="handleFileChange"
+            :on-remove="handleFileRemove" multiple>
+            <el-icon class="el-icon--upload">
+              <Upload />
+            </el-icon>
+            <div class="el-upload__text">{{ $t('rename.uploadText') }} <em>{{ $t('rename.clickUpload') }}</em></div>
+            <div class="upload-tip">{{ $t('rename.uploadTip') }}</div>
+          </el-upload>
+        </div>
 
-    <div v-if="fileList.length > 0" class="rename-workspace">
-      <div class="rename-options">
+        <div v-if="fileList.length > 0" class="rename-options">
         <h3>{{ $t('rename.renameOptions') }}</h3>
 
         <el-form :model="renameOptions" label-width="100px">
@@ -71,8 +72,9 @@
           </el-form-item>
         </el-form>
       </div>
+      </div>
 
-      <div class="file-list">
+      <div v-if="fileList.length > 0" class="file-list">
         <h3>{{ $t('rename.fileListTitle') }} ({{ fileList.length }})</h3>
         <el-table :data="fileList" style="width: 100%">
           <el-table-column :label="$t('rename.originalName')" prop="originalName" min-width="180"></el-table-column>
@@ -305,7 +307,7 @@ const resetOptions = () => {
 }
 
 .rename-container {
-  padding: 20px;
+  padding: 18px;
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -320,12 +322,12 @@ const resetOptions = () => {
 .upload-area {
   display: flex;
   justify-content: center;
-  margin: 20px 0;
+  margin: 0;
 }
 
 .upload-component {
   width: 100%;
-  max-width: 500px;
+  max-width: 560px;
 }
 
 .upload-tip {
@@ -335,20 +337,82 @@ const resetOptions = () => {
 }
 
 .rename-workspace {
-  margin-top: 20px;
+  max-width: 620px;
+  margin: 0 auto;
+}
+
+.rename-workspace.has-files {
+  max-width: none;
+  display: grid;
+  grid-template-columns: minmax(320px, .75fr) minmax(0, 1.35fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.rename-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .rename-options {
-  margin-bottom: 20px;
+  margin-bottom: 0;
+  padding: 18px;
+}
+
+.rename-options h3,
+.file-list h3 {
+  margin-bottom: 16px;
+  font-size: 18px;
 }
 
 .file-list {
-  margin-top: 30px;
+  margin-top: 0;
+  padding: 18px;
+  min-width: 0;
+}
+
+.file-list :deep(.el-table) {
+  border: 1px solid #e1e3dc;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.file-list :deep(.el-table th.el-table__cell) {
+  background: #f3f5e9;
+  color: #4d5853;
 }
 
 .download-section {
-  margin-top: 30px;
+  grid-column: 1 / -1;
+  margin-top: 0;
   text-align: center;
+}
+
+.rename-sidebar :deep(.el-upload-dragger) {
+  min-height: 180px;
+}
+
+.rename-options :deep(.el-form-item:last-child) {
+  margin-bottom: 0;
+}
+
+.rename-options :deep(.el-radio-group) {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  width: 100%;
+  gap: 6px;
+}
+
+.rename-options :deep(.el-radio-button) {
+  width: 100%;
+}
+
+.rename-options :deep(.el-radio-button__inner) {
+  width: 100%;
+  border: 1px solid #dcded5 !important;
+  border-radius: 9px !important;
+  box-shadow: none !important;
 }
 
 @media (max-width: 768px) {
@@ -360,8 +424,9 @@ const resetOptions = () => {
     max-width: 100%;
   }
 
-  .rename-workspace {
-    margin-top: 12px;
+  .rename-workspace.has-files {
+    display: grid;
+    grid-template-columns: 1fr;
   }
 
   .rename-options h3,

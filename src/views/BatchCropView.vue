@@ -2,7 +2,7 @@
   <div class="batch-crop-container">
     <el-row :gutter="16">
       <!-- Left: Upload & Settings & Thumbnails -->
-      <el-col :xs="24" :sm="24" :md="8" :lg="7">
+      <el-col :xs="24" :sm="24" :md="7" :lg="6">
         <div class="panel">
           <el-upload
             class="upload-component"
@@ -128,8 +128,9 @@
       </el-col>
 
       <!-- Right: Workspace & Results -->
-      <el-col :xs="24" :sm="24" :md="15" :lg="16">
-        <div class="panel">
+      <el-col :xs="24" :sm="24" :md="17" :lg="18">
+        <div class="right-workspace">
+        <div class="panel editor-panel">
           <div class="workspace-toolbar">
             <el-button size="small" :disabled="!hasImages" @click="prev">{{
               $t("batchCrop.prev")
@@ -165,7 +166,7 @@
           </div>
         </div>
 
-        <div class="panel">
+        <div class="panel result-panel">
           <div class="result-title">{{ $t("batchCrop.result") }}</div>
           <div v-if="cropped.length === 0" class="empty-tip">—</div>
           <div v-else class="grid">
@@ -187,6 +188,7 @@
               </div>
             </div>
           </div>
+        </div>
         </div>
       </el-col>
     </el-row>
@@ -538,6 +540,19 @@ function onSizeChanged() {
   border-radius: 12px;
   padding: 12px;
 }
+.right-workspace {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.editor-panel,
+.result-panel {
+  min-width: 0;
+}
+.result-panel {
+  max-height: none;
+  overflow: hidden;
+}
 .upload-area {
   width: 100%;
   margin-bottom: 4px;
@@ -653,8 +668,12 @@ function onSizeChanged() {
 }
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(180px, 220px);
+  grid-template-columns: none;
   gap: 12px;
+  overflow-x: auto;
+  padding: 2px 2px 8px;
 }
 .grid-item {
   border: 1px solid var(--el-border-color);
@@ -665,7 +684,7 @@ function onSizeChanged() {
 }
 .grid-item .el-image {
   width: 100%;
-  height: 160px;
+  height: 125px;
 }
 .grid-item .name {
   font-size: 12px;
@@ -686,7 +705,7 @@ function onSizeChanged() {
 }
 @media (max-width: 1024px) {
   .grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-auto-columns: minmax(170px, 210px);
   }
 }
 .upload-tip {
@@ -700,7 +719,7 @@ function onSizeChanged() {
     padding: 8px;
   }
   .grid {
-    grid-template-columns: 1fr;
+    grid-auto-columns: minmax(155px, 190px);
   }
   .thumbs-grid {
     grid-template-columns: repeat(4, 1fr);
