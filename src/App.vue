@@ -23,6 +23,18 @@
           <el-option label="English" value="en" />
           <el-option label="日本語" value="ja" />
         </el-select>
+        <div class="sidebar-footer">
+          <a
+            class="github-link"
+            href="https://github.com/xxxeuniii/PicKit"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="GitHub"
+            title="GitHub"
+          >
+            @xxxeuniii
+          </a>
+        </div>
       </div>
     </aside>
 
@@ -84,6 +96,9 @@ body {
 .language-select { width: 100%; margin-top: auto; }
 .language-select .el-select__wrapper { background: rgba(255,255,255,.08); box-shadow: inset 0 0 0 1px rgba(255,255,255,.18); }
 .language-select .el-select__selected-item, .language-select .el-select__caret { color: white; }
+.sidebar-footer { padding-top: 14px; border-top: 1px solid rgba(255,255,255,.14); }
+.github-link { display: inline-block; color: #aeb8b3; font-size: 13px; font-weight: 600; text-decoration: none; transition: .2s ease; }
+.github-link:hover { color: var(--accent); transform: translateX(3px); }
 
 .el-main { padding: 18px 24px 36px; width: min(1450px,100%); margin: auto; overflow: visible; }
 .nav-shell { width: 100%; }
@@ -114,6 +129,7 @@ body {
   .tool-menu { width: max-content; height: 40px; display: flex; flex-wrap: nowrap; }
   .tool-menu .el-menu-item { flex: 0 0 auto; height: 40px; margin: 0 3px 0 0; padding: 0 12px; }
   .language-select { width: 88px; margin: 0; flex: 0 0 auto; }
+  .sidebar-footer { display: none; }
   .el-main { padding: 10px 10px 24px; }
   .content-container { margin-top: 12px; border-radius: 18px; }
 }
