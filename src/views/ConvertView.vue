@@ -62,24 +62,25 @@
           </el-button>
         </div>
       </div>
-    </div>
 
-    <div v-if="convertedImageUrl" class="result-preview">
-      <h3>{{ $t('convert.result') }}</h3>
-      <div class="preview-image">
-        <img :src="convertedImageUrl" :alt="$t('convert.convertedImage')" />
-      </div>
-      <div class="download-actions">
-        <el-button type="success" @click="downloadConvertedImage">
-          <el-icon>
-            <Download />
-          </el-icon> {{ $t('convert.downloadButton') }}
-        </el-button>
-        <el-button @click="convertAnother">
-          <el-icon>
-            <Plus />
-          </el-icon> {{ $t('convert.convertAnother') }}
-        </el-button>
+      <div class="result-preview" :class="{ 'is-empty': !convertedImageUrl }">
+        <h3>{{ $t('convert.result') }}</h3>
+        <div v-if="convertedImageUrl" class="preview-image">
+          <img :src="convertedImageUrl" :alt="$t('convert.convertedImage')" />
+        </div>
+        <el-empty v-else :description="$t('convert.convertButton')" :image-size="72" />
+        <div v-if="convertedImageUrl" class="download-actions">
+          <el-button type="success" @click="downloadConvertedImage">
+            <el-icon>
+              <Download />
+            </el-icon> {{ $t('convert.downloadButton') }}
+          </el-button>
+          <el-button @click="convertAnother">
+            <el-icon>
+              <Plus />
+            </el-icon> {{ $t('convert.convertAnother') }}
+          </el-button>
+        </div>
       </div>
     </div>
   </div>
@@ -198,7 +199,7 @@ const convertAnother = () => {
 }
 
 .convert-container {
-  padding: 20px;
+  padding: 18px;
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -228,14 +229,16 @@ const convertAnother = () => {
 }
 
 .convert-workspace {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, .78fr) minmax(0, 1fr);
+  gap: 16px;
+  align-items: stretch;
 }
 
 .image-preview {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 0;
+  padding: 18px;
 }
 
 .preview-box {
@@ -265,7 +268,8 @@ const convertAnother = () => {
   display: flex;
   flex-direction: column;
   gap: 15px;
-  margin-top: 20px;
+  margin-top: 0;
+  padding: 18px;
 }
 
 .control-label {
@@ -275,16 +279,17 @@ const convertAnother = () => {
 }
 
 .format-selection,
-.quality-control,
-.action-buttons {
+.quality-control {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: stretch;
   margin-bottom: 10px;
+  gap: 8px;
 }
 
 .quality-slider {
-  flex: 1;
-  margin-left: 10px;
+  width: 100%;
+  margin-left: 0;
 }
 
 .slider-value {
@@ -293,33 +298,51 @@ const convertAnother = () => {
 }
 
 .action-buttons {
+  display: flex;
   justify-content: center;
-  margin-top: 10px;
+  margin-top: auto;
+  padding-top: 12px;
 }
 
 .result-preview {
-  margin-top: 30px;
+  margin-top: 0;
   text-align: center;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
 }
 
 .preview-image {
   max-width: 100%;
-  margin: 15px auto;
+  margin: 15px auto 0;
   border-radius: 4px;
   overflow: hidden;
 }
 
 .preview-image img {
   max-width: 100%;
+  max-height: 400px;
   display: block;
   margin: 0 auto;
 }
 
 .download-actions {
-  margin-top: 15px;
+  margin-top: auto;
+  padding-top: 15px;
   display: flex;
   justify-content: center;
   gap: 10px;
+}
+
+@media (max-width: 1024px) {
+  .convert-workspace {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .convert-controls {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
 }
 
 @media (max-width: 768px) {
@@ -327,10 +350,13 @@ const convertAnother = () => {
     padding: 10px;
   }
 
-  .format-selection,
-  .quality-control {
-    flex-direction: column;
-    align-items: flex-start;
+  .convert-workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .convert-controls {
+    grid-column: auto;
+    grid-row: auto;
   }
 
   .control-label {
