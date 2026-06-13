@@ -19,6 +19,7 @@
         </div>
       </div>
 
+      <div class="crop-sidebar">
       <div class="crop-controls">
         <div class="aspect-ratio-controls">
           <span class="control-label">{{ $t('crop.aspectRatio') }}：</span>
@@ -75,14 +76,14 @@
           </el-button>
         </div>
       </div>
-    </div>
 
-    <div v-if="croppedImageUrl" class="result-preview">
+    <div class="result-preview">
       <h3>{{ $t('crop.result') }}</h3>
-      <div class="preview-image">
+      <div v-if="croppedImageUrl" class="preview-image">
         <img :src="croppedImageUrl" :alt="$t('crop.croppedImage')" />
       </div>
-      <div class="download-actions">
+      <el-empty v-else :description="$t('crop.cropButton')" :image-size="64" />
+      <div v-if="croppedImageUrl" class="download-actions">
         <el-button type="primary" @click="downloadCroppedImage">
           <el-icon>
             <Download />
@@ -93,6 +94,8 @@
             <Delete />
           </el-icon> {{ $t('crop.clearAndRestart') }}
         </el-button>
+      </div>
+    </div>
       </div>
     </div>
   </div>
@@ -269,18 +272,20 @@ onUnmounted(() => {
 }
 
 .crop-workspace {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.65fr) minmax(320px, .75fr);
+  gap: 16px;
+  align-items: start;
 }
 
 .crop-area {
   width: 100%;
-  height: 50vh;
+  height: 64vh;
   max-height: 800px;
   min-height: 400px;
   overflow: hidden;
   margin: 0 auto;
+  border-radius: 18px;
 }
 
 .cropper-container {
@@ -296,7 +301,14 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
   gap: 15px;
-  margin-top: 20px;
+  margin-top: 0;
+  padding: 18px;
+}
+
+.crop-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .control-label {
@@ -307,21 +319,23 @@ onUnmounted(() => {
 
 .aspect-ratio-controls,
 .rotation-controls,
-.flip-controls,
-.action-buttons {
+.flip-controls {
   display: flex;
-  align-items: center;
-  margin-bottom: 10px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
 }
 
 .action-buttons {
+  display: flex;
   justify-content: center;
-  margin-top: 10px;
+  margin-top: 4px;
 }
 
 .result-preview {
-  margin-top: 30px;
+  margin-top: 0;
   text-align: center;
+  padding: 18px;
 }
 
 .preview-image {
@@ -333,7 +347,9 @@ onUnmounted(() => {
 
 .preview-image img {
   max-width: 100%;
+  max-height: 300px;
   display: block;
+  margin: 0 auto;
 }
 
 .download-actions {
@@ -355,6 +371,10 @@ onUnmounted(() => {
   .crop-area {
     height: 50vh;
     min-height: 300px;
+  }
+
+  .crop-workspace {
+    grid-template-columns: 1fr;
   }
 
   .aspect-ratio-controls,

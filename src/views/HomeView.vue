@@ -34,15 +34,14 @@
 </template>
 
 <script setup>
-import { Picture, Crop, RefreshRight, Edit, Document } from '@element-plus/icons-vue';
+import { Picture, Crop, RefreshRight, Edit } from '@element-plus/icons-vue';
 
 const features = [
   { number: '01', path: '/compress', icon: Picture, title: 'home.features.compress.title', description: 'home.features.compress.description' },
   { number: '02', path: '/crop', icon: Crop, title: 'home.features.crop.title', description: 'home.features.crop.description' },
   { number: '03', path: '/convert', icon: RefreshRight, title: 'home.features.convert.title', description: 'home.features.convert.description' },
   { number: '04', path: '/rename', icon: Edit, title: 'home.features.rename.title', description: 'home.features.rename.description' },
-  { number: '05', path: '/batch-crop', icon: Crop, title: 'home.features.batchCrop.title', description: 'home.features.batchCrop.description' },
-  { number: '06', path: '/pdf', icon: Document, title: 'home.features.pdf.title', description: 'home.features.pdf.description' }
+  { number: '05', path: '/batch-crop', icon: Crop, title: 'home.features.batchCrop.title', description: 'home.features.batchCrop.description' }
 ];
 </script>
 

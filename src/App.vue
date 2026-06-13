@@ -25,7 +25,6 @@
           <el-menu-item index="/convert">{{ $t("menu.convert") }}</el-menu-item>
           <el-menu-item index="/rename">{{ $t("menu.rename") }}</el-menu-item>
           <el-menu-item index="/batch-crop">{{ $t("menu.batchCrop") }}</el-menu-item>
-          <el-menu-item index="/pdf">{{ $t("menu.pdf") }}</el-menu-item>
         </el-menu>
       </div>
       <div class="content-container"><router-view /></div>
@@ -74,24 +73,24 @@ body {
 }
 
 .app-container { min-height: 100vh; display: flex; flex-direction: column; }
-.site-header { height: auto; padding: 20px 28px; background: var(--ink); color: white; }
+.site-header { height: auto; padding: 10px 28px; background: var(--ink); color: white; }
 .header-inner { width: min(1180px, 100%); margin: auto; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
 .brand { display: flex; align-items: center; gap: 14px; cursor: pointer; }
-.brand-mark { width: 48px; height: 48px; border-radius: 15px; background: var(--accent); display: grid; grid-template-columns: repeat(2,1fr); gap: 4px; padding: 9px; transform: rotate(-4deg); }
+.brand-mark { width: 38px; height: 38px; border-radius: 12px; background: var(--accent); display: grid; grid-template-columns: repeat(2,1fr); gap: 3px; padding: 7px; transform: rotate(-4deg); }
 .brand-mark span { background: var(--ink); border-radius: 3px; }
 .brand-mark span:first-child { grid-row: span 2; }
-.brand-copy h1 { font-size: 24px; line-height: 1.1; letter-spacing: -.6px; }
-.brand-copy p { margin-top: 4px; font-size: 12px; color: #aeb8b3; letter-spacing: .04em; }
+.brand-copy h1 { font-size: 20px; line-height: 1.1; letter-spacing: -.5px; }
+.brand-copy p { margin-top: 2px; font-size: 10px; color: #aeb8b3; letter-spacing: .04em; }
 .language-select { width: 120px; }
 .language-select .el-select__wrapper { background: rgba(255,255,255,.08); box-shadow: inset 0 0 0 1px rgba(255,255,255,.18); }
 .language-select .el-select__selected-item, .language-select .el-select__caret { color: white; }
 
 .el-main { flex: 1; padding: 0 24px 40px; width: min(1228px,100%); margin: auto; overflow: visible; }
-.nav-shell { position: sticky; top: 12px; z-index: 20; margin: 18px auto 0; padding: 5px; border: 1px solid rgba(23,32,29,.1); border-radius: 16px; background: rgba(255,254,249,.86); box-shadow: 0 12px 30px rgba(31,39,35,.08); backdrop-filter: blur(18px); }
-.tool-menu.el-menu--horizontal { height: 48px; border: 0; background: transparent; gap: 3px; }
-.tool-menu.el-menu--horizontal > .el-menu-item { height: 48px; border: 0 !important; border-radius: 11px; color: var(--muted); font-weight: 600; }
+.nav-shell { position: sticky; top: 8px; z-index: 20; margin: 12px auto 0; padding: 4px; border: 1px solid rgba(23,32,29,.1); border-radius: 14px; background: rgba(255,254,249,.86); box-shadow: 0 12px 30px rgba(31,39,35,.08); backdrop-filter: blur(18px); }
+.tool-menu.el-menu--horizontal { height: 42px; border: 0; background: transparent; gap: 3px; }
+.tool-menu.el-menu--horizontal > .el-menu-item { height: 42px; border: 0 !important; border-radius: 10px; color: var(--muted); font-weight: 600; }
 .tool-menu.el-menu--horizontal > .el-menu-item:hover, .tool-menu.el-menu--horizontal > .el-menu-item.is-active { color: var(--ink) !important; background: var(--accent); }
-.content-container { margin-top: 22px; min-height: 420px; border: 1px solid rgba(23,32,29,.1); border-radius: 24px; background: rgba(255,254,249,.92); box-shadow: 0 24px 70px rgba(31,39,35,.1); overflow: hidden; }
+.content-container { margin-top: 14px; min-height: 420px; border: 1px solid rgba(23,32,29,.1); border-radius: 24px; background: rgba(255,254,249,.92); box-shadow: 0 24px 70px rgba(31,39,35,.1); overflow: hidden; }
 
 .el-footer { height: auto; background: transparent; color: var(--muted); text-align: center; padding: 20px; font-size: 13px; }
 .el-footer .security-tip { font-size: 12px; color: #8b948f; margin-top: 5px; }
@@ -105,7 +104,7 @@ body {
 .el-input__wrapper, .el-select__wrapper, .el-textarea__inner, .el-input-number { border-radius: 10px !important; }
 
 @media (max-width: 768px) {
-  .site-header { padding: 16px; }
+  .site-header { padding: 10px 14px; }
   .brand-copy p { display: none; }
   .el-main { padding: 0 10px 24px; }
   .content-container { margin-top: 12px; border-radius: 18px; }
