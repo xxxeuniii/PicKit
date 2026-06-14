@@ -39,7 +39,7 @@
     </aside>
 
     <el-main>
-      <div class="content-container"><router-view /></div>
+      <router-view />
     </el-main>
 
     <el-footer>
@@ -100,12 +100,11 @@ body {
 .github-link { display: inline-block; color: #aeb8b3; font-size: 13px; font-weight: 600; text-decoration: none; transition: .2s ease; }
 .github-link:hover { color: var(--accent); transform: translateX(3px); }
 
-.el-main { padding: 18px 24px 36px; width: min(1450px,100%); margin: auto; overflow: visible; }
+.el-main { min-height: calc(100vh - 80px); padding: 18px 24px 36px; width: min(1450px,100%); margin: auto; overflow: visible; }
 .nav-shell { width: 100%; }
 .tool-menu { border: 0; background: transparent; }
 .tool-menu .el-menu-item { height: 46px; margin-bottom: 5px; border-radius: 11px; color: #aeb8b3; font-weight: 600; }
 .tool-menu .el-menu-item:hover, .tool-menu .el-menu-item.is-active { color: var(--ink) !important; background: var(--accent); }
-.content-container { min-height: calc(100vh - 80px); border: 1px solid rgba(23,32,29,.1); border-radius: 24px; background: rgba(255,254,249,.92); box-shadow: 0 24px 70px rgba(31,39,35,.1); overflow: hidden; }
 
 .el-footer { height: auto; margin-left: 0; background: transparent; color: var(--muted); text-align: center; padding: 12px 20px 20px; font-size: 13px; }
 .el-footer .security-tip { font-size: 12px; color: #8b948f; margin-top: 5px; }
@@ -131,6 +130,5 @@ body {
   .language-select { width: 88px; margin: 0; flex: 0 0 auto; }
   .sidebar-footer { display: none; }
   .el-main { padding: 10px 10px 24px; }
-  .content-container { margin-top: 12px; border-radius: 18px; }
 }
 </style>
